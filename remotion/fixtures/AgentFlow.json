@@ -1,0 +1,114 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "activate",
+     "target": "wa",
+     "frame": 15
+    },
+    {
+     "do": "activate",
+     "target": "ia",
+     "frame": 40
+    },
+    {
+     "do": "count",
+     "target": null,
+     "frame": 70
+    },
+    {
+     "do": "toggle",
+     "target": null,
+     "frame": 80
+    }
+   ],
+   "component": "AgentFlow",
+   "props": {
+    "title": "Agente · Clínica Exemplo",
+    "toggle_off": "Desligado",
+    "toggle_on": "Ativo 24h",
+    "steps": [
+     {
+      "id": "wa",
+      "icon": "whatsapp",
+      "title": "WhatsApp",
+      "subtitle": "nova mensagem ou áudio"
+     },
+     {
+      "id": "transcrever",
+      "icon": "mic",
+      "title": "Transcrever áudio",
+      "subtitle": "voz → texto"
+     },
+     {
+      "id": "ia",
+      "icon": "ai",
+      "title": "Agente de IA",
+      "subtitle": "entende e decide"
+     },
+     {
+      "id": "agenda",
+      "icon": "calendar",
+      "title": "Agenda",
+      "subtitle": "horários da dentista"
+     },
+     {
+      "id": "responder",
+      "icon": "whatsapp",
+      "title": "Responder no WhatsApp",
+      "subtitle": "confirma e manda a localização"
+     }
+    ],
+    "dial_label": "24h",
+    "counter": {
+     "label": "atendimentos hoje",
+     "start": 0,
+     "end": 37
+    }
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "atendendo",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "24",
+      "frame": 0,
+      "emphasis": true
+     },
+     {
+      "text": "horas",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

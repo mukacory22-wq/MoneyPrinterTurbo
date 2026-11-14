@@ -1,0 +1,96 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "mark",
+     "target": "t1",
+     "frame": 20
+    },
+    {
+     "do": "mark",
+     "target": "t2",
+     "frame": 45
+    },
+    {
+     "do": "mark",
+     "target": "t3",
+     "frame": 80
+    },
+    {
+     "do": "mark",
+     "target": "t4",
+     "frame": 120
+    }
+   ],
+   "component": "Stopwatch",
+   "props": {
+    "total_seconds": 41,
+    "steps": [
+     {
+      "id": "t1",
+      "at_seconds": 6,
+      "label": "transcreveu"
+     },
+     {
+      "id": "t2",
+      "at_seconds": 12,
+      "label": "triagem"
+     },
+     {
+      "id": "t3",
+      "at_seconds": 24,
+      "label": "agenda"
+     },
+     {
+      "id": "t4",
+      "at_seconds": 41,
+      "label": "confirmou"
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "atendendo",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "24",
+      "frame": 0,
+      "emphasis": true
+     },
+     {
+      "text": "horas",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

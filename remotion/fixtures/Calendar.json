@@ -1,0 +1,149 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "scan",
+     "target": null,
+     "frame": 15
+    },
+    {
+     "do": "show",
+     "target": "livre1",
+     "frame": 60
+    },
+    {
+     "do": "show",
+     "target": "livre2",
+     "frame": 70
+    },
+    {
+     "do": "show",
+     "target": "o1",
+     "frame": 95
+    },
+    {
+     "do": "show",
+     "target": "o2",
+     "frame": 100
+    }
+   ],
+   "component": "Calendar",
+   "props": {
+    "title": "Agenda · Dra. Ana Lima",
+    "date": "sexta, 8 nov",
+    "hours": [
+     8,
+     16
+    ],
+    "events": [
+     {
+      "id": "e1",
+      "title": "Limpeza · João P.",
+      "start": "08:00",
+      "end": "09:30",
+      "kind": "busy"
+     },
+     {
+      "id": "livre1",
+      "title": "Livre · 9h30",
+      "start": "09:30",
+      "end": "10:00",
+      "kind": "free"
+     },
+     {
+      "id": "e2",
+      "title": "Canal · Paula R.",
+      "start": "10:00",
+      "end": "11:30",
+      "kind": "busy"
+     },
+     {
+      "id": "e3",
+      "title": "Almoço",
+      "start": "11:30",
+      "end": "13:00",
+      "kind": "break"
+     },
+     {
+      "id": "e4",
+      "title": "Clareamento · Bia L.",
+      "start": "13:00",
+      "end": "14:00",
+      "kind": "busy"
+     },
+     {
+      "id": "livre2",
+      "title": "Livre · 14h",
+      "start": "14:00",
+      "end": "14:30",
+      "kind": "free"
+     },
+     {
+      "id": "e5",
+      "title": "Revisão · Caio",
+      "start": "14:30",
+      "end": "16:00",
+      "kind": "busy"
+     }
+    ],
+    "side": {
+     "title": "Pra Mariana",
+     "subtitle": "horários livres pra amanhã",
+     "options": [
+      {
+       "id": "o1",
+       "label": "9h30"
+      },
+      {
+       "id": "o2",
+       "label": "14h"
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "atendendo",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "24",
+      "frame": 0,
+      "emphasis": true
+     },
+     {
+      "text": "horas",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}
