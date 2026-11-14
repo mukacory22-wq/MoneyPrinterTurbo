@@ -76,7 +76,7 @@ def test_caption_groups_absolute_and_emphasis():
     assert first["to"] == second["from"]
     third = captions["groups"][2]
     assert third["from"] == 68 + 3
-    assert captions["yPercent"] == 60 and captions["highlightColor"] == "#8FB8FF"
+    assert captions["yPercent"] == 68 and captions["highlightColor"] == "#8FB8FF"
 
 
 def test_caption_group_never_outlives_scene():

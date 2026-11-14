@@ -1,0 +1,79 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 120,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 120,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [],
+   "component": "Hook",
+   "props": {
+    "text": "Comente AGENDA"
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 4,
+    "to": 50,
+    "words": [
+     {
+      "text": "Comenta",
+      "frame": 4,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 16,
+      "emphasis": true
+     },
+     {
+      "text": "aqui",
+      "frame": 28,
+      "emphasis": false
+     }
+    ]
+   },
+   {
+    "from": 50,
+    "to": 120,
+    "words": [
+     {
+      "text": "Tudo",
+      "frame": 50,
+      "emphasis": false
+     },
+     {
+      "text": "em",
+      "frame": 58,
+      "emphasis": false
+     },
+     {
+      "text": "41",
+      "frame": 64,
+      "emphasis": true
+     },
+     {
+      "text": "segundos",
+      "frame": 72,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

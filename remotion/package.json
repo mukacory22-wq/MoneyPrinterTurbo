@@ -1,0 +1,31 @@
+{
+  "name": "commercial-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Composição Remotion do gerador de comerciais do MoneyPrinterTurbo",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "validate": "tsx scripts/validate-props.ts",
+    "studio": "remotion studio src/index.ts",
+    "still": "remotion still src/index.ts Commercial",
+    "render": "remotion render src/index.ts Commercial"
+  },
+  "dependencies": {
+    "@fontsource/caveat": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "@fontsource/inter": "5.3.0",
+    "@remotion/cli": "4.0.543",
+    "@remotion/media-utils": "4.0.543",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.543",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2"
+  }
+}

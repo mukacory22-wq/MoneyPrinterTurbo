@@ -25,7 +25,7 @@
     "enabled": true,
     "max_words": 4,
     "max_chars": 18,
-    "y_percent": 60.0,
+    "y_percent": 68.0,
     "font_size": 64,
     "highlight_color": "#8FB8FF"
   },

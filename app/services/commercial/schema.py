@@ -85,7 +85,7 @@ class CaptionSettings(_Model):
     enabled: bool = True
     max_words: int = 4
     max_chars: int = 18
-    y_percent: float = 60
+    y_percent: float = 68
     font_size: int = 64
     highlight_color: str = "#8FB8FF"
 

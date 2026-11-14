@@ -16,7 +16,7 @@
 - Nada simulado no produto: falha de TTS/LLM/render/mídia = erro com causa, nunca conteúdo falso. (Dublês só em testes unitários.)
 - Narração somente via Edge TTS; voz padrão `pt-BR-AntonioNeural`, `rate` `+8%`, `scene_gap_seconds` 0.25.
 - Trilha: `speech_db` −18, `gap_db` −9, rampas 200 ms, `fade_in` 0.5 s, `fade_out` 1.5 s. SFX −12 dB relativos à voz.
-- Legendas: `max_words` 4, `max_chars` 18, quebra em pausa > 250 ms e pontuação, `y_percent` 60, `font_size` 64, `highlight_color` `#8FB8FF`.
+- Legendas: `max_words` 4, `max_chars` 18, quebra em pausa > 250 ms e pontuação, `y_percent` 68, `font_size` 64, `highlight_color` `#8FB8FF`.
 - Cores: fundo `#07080A`, painel `#16181C`, papel `#EDE9DF`, borda `rgba(255,255,255,.08)`, raio 28px.
 - Fontes locais via `@fontsource` (Inter, Instrument Serif itálico, Caveat). Nenhum asset baixado em tempo de render.
 - Componentes recebem 100% do conteúdo por `props`; nenhuma marca/texto fixo de cliente.

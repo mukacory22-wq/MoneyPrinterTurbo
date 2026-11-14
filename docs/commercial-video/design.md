@@ -86,7 +86,7 @@ copia/vincula a pasta do projeto para dentro do bundle).
   "music": { "file": "resource/songs/output003.mp3",
              "speech_db": -18, "gap_db": -9, "fade_in": 0.5, "fade_out": 1.5 },
   "captions": { "enabled": true, "max_words": 4, "max_chars": 18,
-                "y_percent": 60, "font_size": 64, "highlight_color": "#8FB8FF" },
+                "y_percent": 68, "font_size": 64, "highlight_color": "#8FB8FF" },
   "scenes": [
     {
       "id": "s01-gancho",
