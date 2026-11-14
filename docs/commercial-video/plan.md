@@ -22,7 +22,7 @@
 - Componentes recebem 100% do conteúdo por `props`; nenhuma marca/texto fixo de cliente.
 - Projetos em `storage/commercials/<id>/` (gitignored); exemplos versionados em `examples/commercials/<id>/`.
 - Remotion usa o navegador de `REMOTION_BROWSER_EXECUTABLE` se definido (neste ambiente: `/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`).
-- Testes: `uv run python -X utf8 -m pytest -q test/services/commercial` ; Node: `npm --prefix remotion run typecheck`.
+- Testes: `uv run python -X utf8 -m pytest -q test/services/test_commercial_*.py` ; Node: `npm --prefix remotion run typecheck`.
 - Textos de UI via `tr()` com chaves em `webui/i18n/pt.json` e `en.json`.
 
 ## Review Focus
@@ -66,7 +66,7 @@ webui/commercial_tab.py
 webui/Main.py                       # só registra a aba
 examples/commercials/demo-clinica/plan.json (+ audio/ gerado pelo CI)
 .github/workflows/commercial-narration.yml
-test/services/commercial/test_*.py
+test/services/test_commercial_*.py
 ```
 
 ---
@@ -76,7 +76,7 @@ test/services/commercial/test_*.py
 **Files:**
 - Create: `app/services/commercial/__init__.py`, `schema.py`, `components.py`
 - Create: `examples/commercials/demo-clinica/plan.json`
-- Test: `test/services/commercial/test_schema.py`
+- Test: `test/services/test_commercial_schema.py`
 
 **Interfaces:**
 - Produces:
@@ -127,7 +127,7 @@ Props (todos `model_config = extra="forbid"`; itens com `id: str` são alvos de 
 **Files:**
 - Create: `app/services/commercial/captions.py`
 - Modify: `app/services/commercial/schema.py` (usar `find_phrase`)
-- Test: `test/services/commercial/test_captions.py`
+- Test: `test/services/test_commercial_captions.py`
 
 **Interfaces:**
 - Produces:
@@ -152,7 +152,7 @@ Algoritmo de `align_words`: concatenar `normalize_token` de cada token da narra�
 
 **Files:**
 - Create: `app/services/commercial/narration.py`, `app/services/commercial/__main__.py`
-- Test: `test/services/commercial/test_narration.py`
+- Test: `test/services/test_commercial_narration.py`
 
 **Interfaces:**
 - Consumes: Task 1 `load_plan/save_plan`, Task 2 `align_words`.
@@ -174,7 +174,7 @@ Algoritmo de `align_words`: concatenar `normalize_token` de cada token da narra�
 **Files:**
 - Create: `.github/workflows/commercial-narration.yml`
 - Create (pelo CI): `examples/commercials/demo-clinica/audio/*.mp3`, `plan.json` atualizado
-- Test: `test/services/commercial/test_real_narration.py`
+- Test: `test/services/test_commercial_real_narration.py`
 
 Workflow:
 ```yaml
@@ -214,14 +214,14 @@ jobs:
 - [ ] **Step 1:** Escrever `test_real_narration.py`, marcado `@pytest.mark.skipif(not (EXAMPLE/"audio").exists())`: `test_demo_narration_is_real` (todo `scene.audio` existe, arquivo MP3 ≥ 5 KB, `ffprobe` duração ≈ `audio.duration` ±0.05, `words` não vazio, `words[-1].end <= duration + 0.05`, `align_words(narration, raw_words)` reproduz `words`); `test_demo_numbers_spelled_as_written` (palavras da cena com "R$"/"h" mostram a grafia da narração — Review Focus 1).
 - [ ] **Step 2:** Commit workflow + teste; `git push -u origin ccr-919f8171-lyxy6v`.
 - [ ] **Step 3:** Acompanhar a execução (`mcp__github__actions_list` / `actions_get`); em falha ler `get_job_logs`, corrigir, push.
-- [ ] **Step 4:** `git pull` do commit do bot; rodar `pytest test/services/commercial/test_real_narration.py -v` → PASS; `python -m app.services.commercial narrate examples/commercials/demo-clinica` local deve imprimir o total **sem** sintetizar (nada pendente). Ouvir não é possível aqui: reportar ao usuário durações e as 10 primeiras palavras com tempos.
+- [ ] **Step 4:** `git pull` do commit do bot; rodar `pytest test/services/test_commercial_real_narration.py -v` → PASS; `python -m app.services.commercial narrate examples/commercials/demo-clinica` local deve imprimir o total **sem** sintetizar (nada pendente). Ouvir não é possível aqui: reportar ao usuário durações e as 10 primeiras palavras com tempos.
 - [ ] **Step 5:** Se o total ficar fora de 30–60 s, ajustar a narração do exemplo, push, repetir Steps 3–4.
 
 ### Task 5: Linha do tempo (`RenderProps`)
 
 **Files:**
 - Create: `app/services/commercial/timeline.py`
-- Test: `test/services/commercial/test_timeline.py`
+- Test: `test/services/test_commercial_timeline.py`
 
 **Interfaces:**
 - Consumes: Tasks 1–3.
@@ -254,7 +254,7 @@ Regras fixadas:
 
 **Files:**
 - Create: `app/services/commercial/sfx.py`, `remotion/public/sfx/{whoosh,click,pop,notify,type,impact,shimmer}.wav`
-- Test: `test/services/commercial/test_sfx.py`
+- Test: `test/services/test_commercial_sfx.py`
 
 **Interfaces:**
 - Produces: `SFX_NAMES: tuple[str, ...]`; `synthesize_all(out_dir: Path) -> list[Path]`; `resolve_sfx(name: str) -> Path` (prefere `resource/sfx/<name>.wav`, senão `remotion/public/sfx/<name>.wav`).
@@ -277,7 +277,7 @@ Receitas `ffmpeg -f lavfi` (44.1 kHz, mono, PCM 16, normalizar pico a −3 dBFS)
 **Files:**
 - Create: `remotion/package.json`, `tsconfig.json`, `remotion.config.ts`, `src/index.ts`, `Root.tsx`, `Commercial.tsx`, `types.ts`, `registry.ts`, `src/lib/{actions.ts,anim.ts,icons.tsx}`, `src/fx/{Background,Panel3D,Camera,SceneTransition}.tsx`, `src/captions/Captions.tsx`, `src/audio/Soundtrack.tsx`, `src/scenes/{Hook,Media}.tsx`, `scripts/validate-props.ts`, `fixtures/{Hook,Media}.json`, `fixtures/media/test.png` (gerado por `ffmpeg -f lavfi testsrc2=s=1600x900`)
 - Modify: `.gitignore` (`remotion/node_modules`, `remotion/out`)
-- Test: `test/services/commercial/test_remotion_contract.py`
+- Test: `test/services/test_commercial_remotion_contract.py`
 
 **Interfaces:**
 - Consumes: formato `RenderProps` da Task 5.
@@ -331,7 +331,7 @@ Comportamento: `AgentFlow` — etapas apagadas (35%) até `activate` (borda clar
 **Files:**
 - Create: `app/services/commercial/render.py`
 - Modify: `__main__.py` (`render`, `verify`)
-- Test: `test/services/commercial/test_render.py`
+- Test: `test/services/test_commercial_render.py`
 
 **Interfaces:**
 - Consumes: Task 5 `build_render_props`, Task 6 `resolve_sfx`, Task 7 scripts.
@@ -352,7 +352,7 @@ Comportamento: `AgentFlow` — etapas apagadas (35%) até `activate` (borda clar
 **Files:**
 - Create: `app/services/commercial/planner.py`, `app/services/commercial/prompts/planner.md`
 - Modify: `__main__.py` (`plan --topic --audience --seconds --tone --cta --out`)
-- Test: `test/services/commercial/test_planner.py`
+- Test: `test/services/test_commercial_planner.py`
 
 **Interfaces:**
 - Consumes: Task 1 `Plan`, `validate_plan`, `PROPS_MODELS`, `ACTIONS`.
@@ -370,7 +370,7 @@ Prompt (`prompts/planner.md`): papel de roteirista de anúncios verticais pt-BR;
 **Files:**
 - Create: `app/services/commercial/assets.py`, `app/services/commercial/jobs.py`, `webui/commercial_tab.py`
 - Modify: `webui/Main.py` (`_render_application`: após `_render_top_bar()` e diálogos, `standard_tab, commercial_tab = st.tabs([tr("Standard Video Tab"), tr("Commercial Video Tab")], key="main_mode_tabs")`; conteúdo atual dentro de `with standard_tab:`; `with commercial_tab: commercial_tab_module.render(tr)`), `webui/i18n/pt.json`, `webui/i18n/en.json`
-- Test: `test/services/commercial/test_assets.py`, `test_jobs.py`
+- Test: `test/services/test_commercial_assets.py`, `test_jobs.py`
 
 **Interfaces:**
 - Produces:
