@@ -128,21 +128,11 @@ def save_plan(project_dir: Path, plan: Plan) -> None:
         raise
 
 
-def _normalize(text: str) -> list[str]:
-    import re
-    import unicodedata
-
-    flat = unicodedata.normalize("NFKD", text.lower())
-    flat = "".join(ch for ch in flat if not unicodedata.combining(ch))
-    tokens = [re.sub(r"[^a-z0-9]", "", tok) for tok in flat.split()]
-    return [tok for tok in tokens if tok]
-
-
 def _phrase_in_text(text: str, phrase: str) -> bool:
-    words, target = _normalize(text), _normalize(phrase)
-    if not target:
-        return False
-    return any(words[i : i + len(target)] == target for i in range(len(words) - len(target) + 1))
+    # Import tardio: captions importa Word deste módulo.
+    from app.services.commercial.captions import find_phrase, tokenize
+
+    return find_phrase(tokenize(text), phrase) is not None
 
 
 def validate_plan(plan: Plan) -> list[str]:
