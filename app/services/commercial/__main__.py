@@ -45,6 +45,14 @@ def _cmd_props(args) -> int:
     return 0
 
 
+def _cmd_sfx(args) -> int:
+    from app.services.commercial import sfx
+
+    for path in sfx.synthesize_all():
+        print(path)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m app.services.commercial")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -55,6 +63,8 @@ def build_parser() -> argparse.ArgumentParser:
     props = sub.add_parser("props", help="grava out/props.json (linha do tempo para o Remotion)")
     props.add_argument("project")
     props.set_defaults(func=_cmd_props)
+    sfx = sub.add_parser("sfx", help="sintetiza os efeitos sonoros em remotion/public/sfx")
+    sfx.set_defaults(func=_cmd_sfx)
     return parser
 
 
