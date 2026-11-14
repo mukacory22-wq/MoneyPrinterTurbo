@@ -124,13 +124,17 @@ def _scene_captions(plan: Plan, scene: Scene, start: int, end: int, fps: int) ->
     tokens = [t for t in tokenize(scene.narration) if normalize_token(t)]
     words = scene.audio.words
     emphasized: set[int] = set()
+    phrases: list[tuple[int, int]] = []
     for phrase in scene.emphasis:
         found = find_phrase(tokens, phrase)
         if found:
+            phrases.append(found)
             emphasized.update(range(found[0], found[1] + 1))
 
     settings = plan.captions
-    groups = group_captions(words, tokens, settings.max_words, settings.max_chars)
+    groups = group_captions(
+        words, tokens, settings.max_words, settings.max_chars, keep_together=phrases
+    )
     out: list[dict] = []
     index = 0
     for group in groups:

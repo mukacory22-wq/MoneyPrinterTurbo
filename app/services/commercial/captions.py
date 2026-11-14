@@ -123,17 +123,30 @@ def group_captions(
     max_words: int = 4,
     max_chars: int = 18,
     pause: float = 0.25,
+    keep_together: list[tuple[int, int]] | None = None,
 ) -> list[CaptionGroup]:
-    """Agrupa palavras em blocos curtos; ``raw_tokens`` traz a pontuação."""
+    """Agrupa palavras em blocos curtos; ``raw_tokens`` traz a pontuação.
+
+    ``keep_together`` lista intervalos (primeiro, último índice) que não podem
+    ser partidos entre dois grupos — as frases de destaque.
+    """
+    phrase_end: dict[int, int] = {}
+    inside: set[int] = set()
+    for first, last in keep_together or []:
+        phrase_end[first] = max(last, phrase_end.get(first, first))
+        inside.update(range(first + 1, last + 1))
+
     groups: list[list[Word]] = []
     current: list[Word] = []
     for index, word in enumerate(words):
-        if current:
+        if current and index not in inside:
             previous = words[index - 1]
             prev_raw = raw_tokens[index - 1].rstrip() if index - 1 < len(raw_tokens) else ""
-            chars = sum(len(w.text) for w in current) + len(current) + len(word.text)
+            # Uma frase de destaque entra inteira: conta todas as suas palavras.
+            incoming = words[index : phrase_end.get(index, index) + 1]
+            chars = sum(len(w.text) for w in current + incoming) + len(current) + len(incoming) - 1
             if (
-                len(current) >= max_words
+                len(current) + len(incoming) > max_words
                 or chars > max_chars
                 or word.start - previous.end > pause
                 or prev_raw.rstrip("\"”’')").endswith(_SENTENCE_END)

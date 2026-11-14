@@ -1918,7 +1918,7 @@
   "status": {
     "plan": "done",
     "narration": "done",
-    "render": "pending",
+    "render": "done",
     "errors": {}
   }
 }

@@ -107,3 +107,15 @@ def test_group_breaks_on_sentence_end():
 def test_to_srt_format():
     groups = [CaptionGroup(words=seq(["Você", "pode", "vender"]), start=0.05, end=1.2)]
     assert to_srt(groups) == "1\n00:00:00,050 --> 00:00:01,200\nVocê pode vender\n"
+
+
+def test_group_keeps_emphasis_phrase_together():
+    texts = ["clínica", "odonto", "por", "3", "mil", "reais"]
+    split = group_captions(seq(texts), texts, max_words=4, max_chars=18)
+    assert [[w.text for w in g.words] for g in split] == [["clínica", "odonto", "por"], ["3", "mil", "reais"]]
+
+    texts = ["pra", "clínica", "por", "3", "mil", "reais"]
+    split = group_captions(seq(texts), texts, max_words=4, max_chars=18)
+    assert [[w.text for w in g.words] for g in split] == [["pra", "clínica", "por", "3"], ["mil", "reais"]]
+    kept = group_captions(seq(texts), texts, max_words=4, max_chars=18, keep_together=[(3, 4)])
+    assert [[w.text for w in g.words] for g in kept] == [["pra", "clínica", "por"], ["3", "mil", "reais"]]

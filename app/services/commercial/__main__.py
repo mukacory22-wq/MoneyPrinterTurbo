@@ -53,6 +53,48 @@ def _cmd_sfx(args) -> int:
     return 0
 
 
+def _cmd_render(args) -> int:
+    from app.services.commercial import render
+
+    try:
+        final = render.render_project(Path(args.project))
+    except render.RenderError as exc:
+        print(f"ERRO: {exc}", file=sys.stderr)
+        return 1
+    print(final)
+    return 0
+
+
+def _cmd_verify(args) -> int:
+    from app.services.commercial import render
+
+    problems = render.verify(Path(args.file))
+    for problem in problems:
+        print(f"PROBLEMA: {problem}")
+    if not problems:
+        print("ok: 1080x1920, 30 fps, H.264 + AAC, 30–60 s, -14 LUFS")
+    return 1 if problems else 0
+
+
+def _cmd_plan(args) -> int:
+    from app.services.commercial import planner
+    from app.services.commercial.schema import Brief, save_plan
+
+    out = Path(args.out)
+    brief = Brief(topic=args.topic, audience=args.audience, target_seconds=args.seconds,
+                  tone=args.tone, cta=args.cta)
+    try:
+        plan = planner.generate_plan(brief, out.name)
+    except planner.PlannerError as exc:
+        print(f"ERRO: {exc}", file=sys.stderr)
+        return 1
+    save_plan(out, plan)
+    for scene in plan.scenes:
+        print(f"[{scene.component}] {scene.narration}")
+    print(f"{out / 'plan.json'}  ({len(plan.scenes)} cenas)")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m app.services.commercial")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -65,6 +107,20 @@ def build_parser() -> argparse.ArgumentParser:
     props.set_defaults(func=_cmd_props)
     sfx = sub.add_parser("sfx", help="sintetiza os efeitos sonoros em remotion/public/sfx")
     sfx.set_defaults(func=_cmd_sfx)
+    render = sub.add_parser("render", help="renderiza out/final.mp4 (Remotion + FFmpeg)")
+    render.add_argument("project")
+    render.set_defaults(func=_cmd_render)
+    verify = sub.add_parser("verify", help="confere um MP4 final")
+    verify.add_argument("file")
+    verify.set_defaults(func=_cmd_verify)
+    plan = sub.add_parser("plan", help="gera o plano (roteiro + cenas) com IA")
+    plan.add_argument("--topic", required=True)
+    plan.add_argument("--audience", required=True)
+    plan.add_argument("--seconds", type=int, default=45)
+    plan.add_argument("--tone", default="")
+    plan.add_argument("--cta", default="")
+    plan.add_argument("--out", required=True, help="pasta do projeto (o nome vira o id)")
+    plan.set_defaults(func=_cmd_plan)
     return parser
 
 

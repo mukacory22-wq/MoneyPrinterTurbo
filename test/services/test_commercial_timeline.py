@@ -157,3 +157,14 @@ def test_sfx_disabled_per_scene():
     plan = make_plan()
     plan.scenes[1].sfx.enabled = False
     assert build_render_props(plan)["sfx"] == []
+
+
+def test_emphasis_phrase_is_not_split_across_groups():
+    plan = make_plan(scenes=[
+        _scene("a", "Vender pra clínica odontológica por 3 mil reais.", 4.0, emphasis=["3 mil"]),
+        _scene("b", "Dois.", 1.0),
+        _scene("c", "Três.", 1.0),
+    ])
+    groups = build_render_props(plan)["captions"]["groups"]
+    holder = [g for g in groups if any(w["text"] == "3" for w in g["words"])][0]
+    assert [w["text"] for w in holder["words"] if w["emphasis"]] == ["3", "mil"]
