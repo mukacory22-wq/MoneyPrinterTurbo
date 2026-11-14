@@ -1,0 +1,108 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "show",
+     "target": "voz",
+     "frame": 15
+    },
+    {
+     "do": "play",
+     "target": "voz",
+     "frame": 35
+    },
+    {
+     "do": "typing",
+     "target": "resposta",
+     "frame": 70
+    },
+    {
+     "do": "show",
+     "target": "ok",
+     "frame": 120
+    }
+   ],
+   "component": "WhatsAppChat",
+   "props": {
+    "contact": {
+     "name": "Mariana Souza",
+     "subtitle": "online"
+    },
+    "messages": [
+     {
+      "id": "auto",
+      "sender": "me",
+      "kind": "text",
+      "text": "Olá! Bem-vindo à Clínica Exemplo. Atendemos de seg a sex, das 8h às 18h.",
+      "time": "18:02"
+     },
+     {
+      "id": "voz",
+      "sender": "them",
+      "kind": "audio",
+      "audio_seconds": 14,
+      "time": "23:47"
+     },
+     {
+      "id": "resposta",
+      "sender": "me",
+      "kind": "text",
+      "text": "Oi, Mariana! Entendi: dor forte no dente. Vou buscar um horário urgente pra você.",
+      "time": "23:47"
+     },
+     {
+      "id": "ok",
+      "sender": "them",
+      "kind": "text",
+      "text": "9h30, por favor!",
+      "time": "23:48"
+     }
+    ],
+    "composer": "idle"
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "durante",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "madrugada",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

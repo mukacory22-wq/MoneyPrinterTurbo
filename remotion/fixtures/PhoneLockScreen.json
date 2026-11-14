@@ -1,0 +1,103 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "press",
+     "target": "despertador",
+     "frame": 20
+    },
+    {
+     "do": "show",
+     "target": "n1",
+     "frame": 50
+    },
+    {
+     "do": "show",
+     "target": "n2",
+     "frame": 70
+    },
+    {
+     "do": "show",
+     "target": "n3",
+     "frame": 90
+    }
+   ],
+   "component": "PhoneLockScreen",
+   "props": {
+    "time": "7:00",
+    "date": "sexta-feira, 8 de novembro",
+    "alarm": {
+     "id": "despertador",
+     "label": "Despertador",
+     "sub": "7:00 · consultório às 8h"
+    },
+    "notifications": [
+     {
+      "id": "n1",
+      "app": "calendar",
+      "title": "Nova consulta agendada",
+      "body": "Mariana S. · sex 9h30",
+      "meta": "marcada às 23:48"
+     },
+     {
+      "id": "n2",
+      "app": "calendar",
+      "title": "Nova consulta agendada",
+      "body": "Pedro A. · sex 10h30",
+      "meta": "marcada à 1:12"
+     },
+     {
+      "id": "n3",
+      "app": "whatsapp",
+      "title": "Carla Mota",
+      "body": "Mensagem de voz (0:14)",
+      "meta": "agora"
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "durante",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "madrugada",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

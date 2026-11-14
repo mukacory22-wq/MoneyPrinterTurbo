@@ -54,3 +54,17 @@ def test_unknown_component_rejected(tmp_path):
     bad = tmp_path / "bad.json"
     bad.write_text(json.dumps(data), encoding="utf-8")
     assert _validate(bad).returncode == 1
+
+
+def test_python_and_zod_agree(tmp_path):
+    """Os props de cada cena do exemplo passam no pydantic E no zod."""
+    from app.services.commercial.schema import load_plan, validate_plan
+    from app.services.commercial.timeline import build_render_props
+
+    example = ROOT / "examples" / "commercials" / "demo-clinica"
+    plan = load_plan(example)
+    assert validate_plan(plan) == []
+    props = tmp_path / "props.json"
+    props.write_text(json.dumps(build_render_props(plan, project_dir=example)), encoding="utf-8")
+    result = _validate(props)
+    assert result.returncode == 0, result.stdout + result.stderr
