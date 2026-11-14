@@ -26,6 +26,25 @@ def _cmd_narrate(args) -> int:
     return 0
 
 
+def _cmd_props(args) -> int:
+    import json
+
+    from app.services.commercial.schema import load_plan
+    from app.services.commercial.timeline import build_render_props
+
+    project = Path(args.project)
+    try:
+        props = build_render_props(load_plan(project), project_dir=project)
+    except ValueError as exc:
+        print(f"ERRO: {exc}", file=sys.stderr)
+        return 1
+    out = project / "out" / "props.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(props, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"{out}  ({props['durationInFrames'] / props['fps']:.1f}s, {len(props['scenes'])} cenas)")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m app.services.commercial")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -33,6 +52,9 @@ def build_parser() -> argparse.ArgumentParser:
     narrate.add_argument("project")
     narrate.add_argument("--force", action="store_true")
     narrate.set_defaults(func=_cmd_narrate)
+    props = sub.add_parser("props", help="grava out/props.json (linha do tempo para o Remotion)")
+    props.add_argument("project")
+    props.set_defaults(func=_cmd_props)
     return parser
 
 

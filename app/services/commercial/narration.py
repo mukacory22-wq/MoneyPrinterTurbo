@@ -17,7 +17,7 @@ from app.services.commercial.schema import (
     Plan, SceneAudio, VoiceSettings, Word, load_plan, save_plan,
 )
 
-RETRY_DELAYS: tuple[float, ...] = (1, 2)  # esperas entre as 3 tentativas
+RETRY_DELAYS: tuple[float, ...] = (2, 6, 15)  # esperas entre as 4 tentativas
 _NETWORK_ERRORS = (aiohttp.ClientError, EdgeTTSException, asyncio.TimeoutError, OSError)
 
 

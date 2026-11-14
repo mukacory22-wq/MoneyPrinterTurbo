@@ -8,220 +8,1917 @@
     "tone": "direto, provocativo, coloquial",
     "cta": "Comente AGENDA"
   },
-  "voice": { "provider": "edge", "name": "pt-BR-AntonioNeural", "rate": "+8%", "scene_gap_seconds": 0.25 },
-  "music": { "file": "resource/songs/output003.mp3", "speech_db": -18, "gap_db": -9, "fade_in": 0.5, "fade_out": 1.5 },
-  "captions": { "enabled": true, "max_words": 4, "max_chars": 18, "y_percent": 60, "font_size": 64, "highlight_color": "#8FB8FF" },
+  "voice": {
+    "provider": "edge",
+    "name": "pt-BR-AntonioNeural",
+    "rate": "+8%",
+    "scene_gap_seconds": 0.25
+  },
+  "music": {
+    "file": "resource/songs/output003.mp3",
+    "speech_db": -18.0,
+    "gap_db": -9.0,
+    "fade_in": 0.5,
+    "fade_out": 1.5
+  },
+  "captions": {
+    "enabled": true,
+    "max_words": 4,
+    "max_chars": 18,
+    "y_percent": 60.0,
+    "font_size": 64,
+    "highlight_color": "#8FB8FF"
+  },
   "scenes": [
     {
       "id": "s01-gancho",
       "narration": "Você pode vender automação pra clínica odontológica por 3 mil reais.",
-      "emphasis": ["automação", "3 mil"],
+      "emphasis": [
+        "automação",
+        "3 mil"
+      ],
       "component": "PhoneLockScreen",
       "props": {
         "time": "14:20",
         "date": "quinta-feira, 7 de novembro",
         "notifications": [
-          { "id": "pix", "app": "pix", "title": "Pix recebido", "body": "R$ 3.000,00", "meta": "Clínica Exemplo" }
+          {
+            "id": "pix",
+            "app": "pix",
+            "title": "Pix recebido",
+            "body": "R$ 3.000,00",
+            "meta": "Clínica Exemplo"
+          }
         ]
       },
-      "actions": [ { "at": "3 mil", "do": "show", "target": "pix" } ],
+      "actions": [
+        {
+          "at": "3 mil",
+          "do": "show",
+          "target": "pix"
+        }
+      ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s01-gancho.mp3",
+        "duration": 4.776,
+        "words": [
+          {
+            "text": "Você",
+            "start": 0.096,
+            "end": 0.386
+          },
+          {
+            "text": "pode",
+            "start": 0.397,
+            "end": 0.675
+          },
+          {
+            "text": "vender",
+            "start": 0.687,
+            "end": 0.953
+          },
+          {
+            "text": "automação",
+            "start": 0.964,
+            "end": 1.52
+          },
+          {
+            "text": "pra",
+            "start": 1.532,
+            "end": 1.694
+          },
+          {
+            "text": "clínica",
+            "start": 1.705,
+            "end": 2.064
+          },
+          {
+            "text": "odontológica",
+            "start": 2.075,
+            "end": 2.77
+          },
+          {
+            "text": "por",
+            "start": 2.781,
+            "end": 2.955
+          },
+          {
+            "text": "3",
+            "start": 2.967,
+            "end": 3.091
+          },
+          {
+            "text": "mil",
+            "start": 3.091,
+            "end": 3.464
+          },
+          {
+            "text": "reais",
+            "start": 3.476,
+            "end": 3.962
+          }
+        ],
+        "text_hash": "972b8abad6649147",
+        "raw_words": [
+          {
+            "text": "Você",
+            "start": 0.096,
+            "end": 0.386
+          },
+          {
+            "text": "pode",
+            "start": 0.397,
+            "end": 0.675
+          },
+          {
+            "text": "vender",
+            "start": 0.687,
+            "end": 0.953
+          },
+          {
+            "text": "automação",
+            "start": 0.964,
+            "end": 1.52
+          },
+          {
+            "text": "pra",
+            "start": 1.532,
+            "end": 1.694
+          },
+          {
+            "text": "clínica",
+            "start": 1.705,
+            "end": 2.064
+          },
+          {
+            "text": "odontológica",
+            "start": 2.075,
+            "end": 2.77
+          },
+          {
+            "text": "por",
+            "start": 2.781,
+            "end": 2.955
+          },
+          {
+            "text": "3 mil",
+            "start": 2.967,
+            "end": 3.464
+          },
+          {
+            "text": "reais",
+            "start": 3.476,
+            "end": 3.962
+          }
+        ]
+      }
     },
     {
       "id": "s02-madrugada",
-      "narration": "E olha só. São 23h47 e uma paciente manda um áudio no WhatsApp da clínica.",
-      "emphasis": ["23h47"],
+      "narration": "São 23h47 e uma paciente manda um áudio no WhatsApp.",
+      "emphasis": [
+        "23h47"
+      ],
       "component": "PhoneLockScreen",
       "props": {
         "time": "23:47",
         "date": "quinta-feira, 7 de novembro",
         "notifications": [
-          { "id": "audio", "app": "whatsapp", "title": "Mariana Souza", "body": "Mensagem de voz (0:14)", "meta": "agora" }
+          {
+            "id": "audio",
+            "app": "whatsapp",
+            "title": "Mariana Souza",
+            "body": "Mensagem de voz (0:14)",
+            "meta": "agora"
+          }
         ]
       },
-      "actions": [ { "at": "áudio", "do": "show", "target": "audio" } ],
+      "actions": [
+        {
+          "at": "áudio",
+          "do": "show",
+          "target": "audio"
+        }
+      ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s02-madrugada.mp3",
+        "duration": 5.208,
+        "words": [
+          {
+            "text": "São",
+            "start": 0.096,
+            "end": 0.42
+          },
+          {
+            "text": "23h47",
+            "start": 0.432,
+            "end": 1.994
+          },
+          {
+            "text": "e",
+            "start": 2.006,
+            "end": 2.018
+          },
+          {
+            "text": "uma",
+            "start": 2.029,
+            "end": 2.168
+          },
+          {
+            "text": "paciente",
+            "start": 2.18,
+            "end": 2.758
+          },
+          {
+            "text": "manda",
+            "start": 2.77,
+            "end": 3.117
+          },
+          {
+            "text": "um",
+            "start": 3.129,
+            "end": 3.36
+          },
+          {
+            "text": "áudio",
+            "start": 3.372,
+            "end": 3.673
+          },
+          {
+            "text": "no",
+            "start": 3.684,
+            "end": 3.742
+          },
+          {
+            "text": "WhatsApp",
+            "start": 3.754,
+            "end": 4.39
+          }
+        ],
+        "text_hash": "a02d87b75ebee75d",
+        "raw_words": [
+          {
+            "text": "São",
+            "start": 0.096,
+            "end": 0.42
+          },
+          {
+            "text": "23h47",
+            "start": 0.432,
+            "end": 1.994
+          },
+          {
+            "text": "e",
+            "start": 2.006,
+            "end": 2.018
+          },
+          {
+            "text": "uma",
+            "start": 2.029,
+            "end": 2.168
+          },
+          {
+            "text": "paciente",
+            "start": 2.18,
+            "end": 2.758
+          },
+          {
+            "text": "manda",
+            "start": 2.77,
+            "end": 3.117
+          },
+          {
+            "text": "um",
+            "start": 3.129,
+            "end": 3.36
+          },
+          {
+            "text": "áudio",
+            "start": 3.372,
+            "end": 3.673
+          },
+          {
+            "text": "no",
+            "start": 3.684,
+            "end": 3.742
+          },
+          {
+            "text": "WhatsApp",
+            "start": 3.754,
+            "end": 4.39
+          }
+        ]
+      }
     },
     {
       "id": "s03-fechado",
       "narration": "Só que o consultório já tá fechado. Sem resposta, ela procuraria outro dentista.",
-      "emphasis": ["fechado"],
+      "emphasis": [
+        "fechado"
+      ],
       "component": "WhatsAppChat",
       "props": {
-        "contact": { "name": "Clínica Exemplo", "subtitle": "Conta comercial" },
+        "contact": {
+          "name": "Clínica Exemplo",
+          "subtitle": "Conta comercial"
+        },
         "messages": [
-          { "id": "auto", "sender": "them", "kind": "text", "text": "Olá! Bem-vindo à Clínica Exemplo. Atendemos de seg a sex, das 8h às 18h.", "time": "18:02" },
-          { "id": "voz", "sender": "me", "kind": "audio", "audio_seconds": 14, "time": "23:47" }
+          {
+            "id": "auto",
+            "sender": "them",
+            "kind": "text",
+            "text": "Olá! Bem-vindo à Clínica Exemplo. Atendemos de seg a sex, das 8h às 18h.",
+            "time": "18:02"
+          },
+          {
+            "id": "voz",
+            "sender": "me",
+            "kind": "audio",
+            "audio_seconds": 14,
+            "time": "23:47"
+          }
         ],
         "composer": "idle"
       },
-      "actions": [ { "at": "consultório", "do": "show", "target": "voz" } ],
+      "actions": [
+        {
+          "at": "consultório",
+          "do": "show",
+          "target": "voz"
+        }
+      ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s03-fechado.mp3",
+        "duration": 6.312,
+        "words": [
+          {
+            "text": "Só",
+            "start": 0.096,
+            "end": 0.397
+          },
+          {
+            "text": "que",
+            "start": 0.409,
+            "end": 0.478
+          },
+          {
+            "text": "o",
+            "start": 0.49,
+            "end": 0.525
+          },
+          {
+            "text": "consultório",
+            "start": 0.536,
+            "end": 1.15
+          },
+          {
+            "text": "já",
+            "start": 1.161,
+            "end": 1.3
+          },
+          {
+            "text": "tá",
+            "start": 1.312,
+            "end": 1.427
+          },
+          {
+            "text": "fechado",
+            "start": 1.439,
+            "end": 1.994
+          },
+          {
+            "text": "Sem",
+            "start": 2.789,
+            "end": 3.067
+          },
+          {
+            "text": "resposta",
+            "start": 3.079,
+            "end": 3.681
+          },
+          {
+            "text": "ela",
+            "start": 3.843,
+            "end": 4.016
+          },
+          {
+            "text": "procuraria",
+            "start": 4.028,
+            "end": 4.618
+          },
+          {
+            "text": "outro",
+            "start": 4.63,
+            "end": 4.919
+          },
+          {
+            "text": "dentista",
+            "start": 4.931,
+            "end": 5.509
+          }
+        ],
+        "text_hash": "754fca33fc62b1c1",
+        "raw_words": [
+          {
+            "text": "Só",
+            "start": 0.096,
+            "end": 0.397
+          },
+          {
+            "text": "que",
+            "start": 0.409,
+            "end": 0.478
+          },
+          {
+            "text": "o",
+            "start": 0.49,
+            "end": 0.525
+          },
+          {
+            "text": "consultório",
+            "start": 0.536,
+            "end": 1.15
+          },
+          {
+            "text": "já",
+            "start": 1.161,
+            "end": 1.3
+          },
+          {
+            "text": "tá",
+            "start": 1.312,
+            "end": 1.427
+          },
+          {
+            "text": "fechado",
+            "start": 1.439,
+            "end": 1.994
+          },
+          {
+            "text": "Sem",
+            "start": 2.789,
+            "end": 3.067
+          },
+          {
+            "text": "resposta",
+            "start": 3.079,
+            "end": 3.681
+          },
+          {
+            "text": "ela",
+            "start": 3.843,
+            "end": 4.016
+          },
+          {
+            "text": "procuraria",
+            "start": 4.028,
+            "end": 4.618
+          },
+          {
+            "text": "outro",
+            "start": 4.63,
+            "end": 4.919
+          },
+          {
+            "text": "dentista",
+            "start": 4.931,
+            "end": 5.509
+          }
+        ]
+      }
     },
     {
       "id": "s04-agente",
       "narration": "Mas essa clínica tem um agente de inteligência artificial atendendo 24 horas.",
-      "emphasis": ["agente", "24 horas"],
+      "emphasis": [
+        "agente",
+        "24 horas"
+      ],
       "component": "AgentFlow",
       "props": {
         "title": "Agente · Clínica Exemplo",
         "toggle_off": "Desligado",
         "toggle_on": "Ativo 24h",
         "steps": [
-          { "id": "wa", "icon": "whatsapp", "title": "WhatsApp", "subtitle": "nova mensagem ou áudio" },
-          { "id": "transcrever", "icon": "mic", "title": "Transcrever áudio", "subtitle": "voz → texto" },
-          { "id": "ia", "icon": "ai", "title": "Agente de IA", "subtitle": "entende e decide" },
-          { "id": "agenda", "icon": "calendar", "title": "Agenda", "subtitle": "horários da dentista" },
-          { "id": "responder", "icon": "whatsapp", "title": "Responder no WhatsApp", "subtitle": "confirma e manda a localização" }
+          {
+            "id": "wa",
+            "icon": "whatsapp",
+            "title": "WhatsApp",
+            "subtitle": "nova mensagem ou áudio"
+          },
+          {
+            "id": "transcrever",
+            "icon": "mic",
+            "title": "Transcrever áudio",
+            "subtitle": "voz → texto"
+          },
+          {
+            "id": "ia",
+            "icon": "ai",
+            "title": "Agente de IA",
+            "subtitle": "entende e decide"
+          },
+          {
+            "id": "agenda",
+            "icon": "calendar",
+            "title": "Agenda",
+            "subtitle": "horários da dentista"
+          },
+          {
+            "id": "responder",
+            "icon": "whatsapp",
+            "title": "Responder no WhatsApp",
+            "subtitle": "confirma e manda a localização"
+          }
         ],
         "dial_label": "24h",
-        "counter": { "label": "atendimentos hoje", "start": 0, "end": 37 }
+        "counter": {
+          "label": "atendimentos hoje",
+          "start": 0,
+          "end": 37
+        }
       },
       "actions": [
-        { "at": "agente", "do": "activate", "target": "ia" },
-        { "at": "atendendo", "do": "count" },
-        { "at": "24 horas", "do": "toggle" }
+        {
+          "at": "agente",
+          "do": "activate",
+          "target": "ia"
+        },
+        {
+          "at": "atendendo",
+          "do": "count",
+          "target": null
+        },
+        {
+          "at": "24 horas",
+          "do": "toggle",
+          "target": null
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s04-agente.mp3",
+        "duration": 5.184,
+        "words": [
+          {
+            "text": "Mas",
+            "start": 0.096,
+            "end": 0.281
+          },
+          {
+            "text": "essa",
+            "start": 0.293,
+            "end": 0.617
+          },
+          {
+            "text": "clínica",
+            "start": 0.629,
+            "end": 1.022
+          },
+          {
+            "text": "tem",
+            "start": 1.034,
+            "end": 1.173
+          },
+          {
+            "text": "um",
+            "start": 1.184,
+            "end": 1.288
+          },
+          {
+            "text": "agente",
+            "start": 1.3,
+            "end": 1.659
+          },
+          {
+            "text": "de",
+            "start": 1.67,
+            "end": 1.728
+          },
+          {
+            "text": "inteligência",
+            "start": 1.74,
+            "end": 2.319
+          },
+          {
+            "text": "artificial",
+            "start": 2.33,
+            "end": 2.92
+          },
+          {
+            "text": "atendendo",
+            "start": 2.932,
+            "end": 3.43
+          },
+          {
+            "text": "24",
+            "start": 3.441,
+            "end": 3.709
+          },
+          {
+            "text": "horas",
+            "start": 3.709,
+            "end": 4.379
+          }
+        ],
+        "text_hash": "8b02d7699e749f2a",
+        "raw_words": [
+          {
+            "text": "Mas",
+            "start": 0.096,
+            "end": 0.281
+          },
+          {
+            "text": "essa",
+            "start": 0.293,
+            "end": 0.617
+          },
+          {
+            "text": "clínica",
+            "start": 0.629,
+            "end": 1.022
+          },
+          {
+            "text": "tem",
+            "start": 1.034,
+            "end": 1.173
+          },
+          {
+            "text": "um",
+            "start": 1.184,
+            "end": 1.288
+          },
+          {
+            "text": "agente",
+            "start": 1.3,
+            "end": 1.659
+          },
+          {
+            "text": "de",
+            "start": 1.67,
+            "end": 1.728
+          },
+          {
+            "text": "inteligência",
+            "start": 1.74,
+            "end": 2.319
+          },
+          {
+            "text": "artificial",
+            "start": 2.33,
+            "end": 2.92
+          },
+          {
+            "text": "atendendo",
+            "start": 2.932,
+            "end": 3.43
+          },
+          {
+            "text": "24 horas",
+            "start": 3.441,
+            "end": 4.379
+          }
+        ]
+      }
     },
     {
       "id": "s05-transcreve",
       "narration": "Primeiro ele transcreve o áudio e entende que a paciente está com dor e precisa de um horário urgente.",
-      "emphasis": ["transcreve", "urgente"],
+      "emphasis": [
+        "transcreve",
+        "urgente"
+      ],
       "component": "WhatsAppChat",
       "props": {
-        "contact": { "name": "Mariana Souza", "subtitle": "online" },
+        "contact": {
+          "name": "Mariana Souza",
+          "subtitle": "online"
+        },
         "messages": [
-          { "id": "voz", "sender": "them", "kind": "audio", "audio_seconds": 14, "time": "23:47" },
-          { "id": "resposta", "sender": "me", "kind": "text", "text": "Oi, Mariana! Entendi: dor forte no dente. Vou buscar um horário urgente pra você.", "time": "23:47" }
+          {
+            "id": "voz",
+            "sender": "them",
+            "kind": "audio",
+            "audio_seconds": 14,
+            "time": "23:47"
+          },
+          {
+            "id": "resposta",
+            "sender": "me",
+            "kind": "text",
+            "text": "Oi, Mariana! Entendi: dor forte no dente. Vou buscar um horário urgente pra você.",
+            "time": "23:47"
+          }
         ],
         "composer": "idle"
       },
       "actions": [
-        { "at": "transcreve", "do": "play", "target": "voz" },
-        { "at": "precisa", "do": "typing", "target": "resposta" }
+        {
+          "at": "transcreve",
+          "do": "play",
+          "target": "voz"
+        },
+        {
+          "at": "precisa",
+          "do": "typing",
+          "target": "resposta"
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s05-transcreve.mp3",
+        "duration": 5.64,
+        "words": [
+          {
+            "text": "Primeiro",
+            "start": 0.096,
+            "end": 0.455
+          },
+          {
+            "text": "ele",
+            "start": 0.467,
+            "end": 0.582
+          },
+          {
+            "text": "transcreve",
+            "start": 0.594,
+            "end": 1.069
+          },
+          {
+            "text": "o",
+            "start": 1.08,
+            "end": 1.184
+          },
+          {
+            "text": "áudio",
+            "start": 1.196,
+            "end": 1.531
+          },
+          {
+            "text": "e",
+            "start": 1.543,
+            "end": 1.555
+          },
+          {
+            "text": "entende",
+            "start": 1.566,
+            "end": 2.006
+          },
+          {
+            "text": "que",
+            "start": 2.018,
+            "end": 2.075
+          },
+          {
+            "text": "a",
+            "start": 2.087,
+            "end": 2.133
+          },
+          {
+            "text": "paciente",
+            "start": 2.145,
+            "end": 2.654
+          },
+          {
+            "text": "está",
+            "start": 2.666,
+            "end": 2.863
+          },
+          {
+            "text": "com",
+            "start": 2.874,
+            "end": 3.025
+          },
+          {
+            "text": "dor",
+            "start": 3.036,
+            "end": 3.302
+          },
+          {
+            "text": "e",
+            "start": 3.314,
+            "end": 3.36
+          },
+          {
+            "text": "precisa",
+            "start": 3.372,
+            "end": 3.788
+          },
+          {
+            "text": "de",
+            "start": 3.8,
+            "end": 3.893
+          },
+          {
+            "text": "um",
+            "start": 3.904,
+            "end": 3.997
+          },
+          {
+            "text": "horário",
+            "start": 4.008,
+            "end": 4.321
+          },
+          {
+            "text": "urgente",
+            "start": 4.332,
+            "end": 4.83
+          }
+        ],
+        "text_hash": "19a53a63ba92bcb7",
+        "raw_words": [
+          {
+            "text": "Primeiro",
+            "start": 0.096,
+            "end": 0.455
+          },
+          {
+            "text": "ele",
+            "start": 0.467,
+            "end": 0.582
+          },
+          {
+            "text": "transcreve",
+            "start": 0.594,
+            "end": 1.069
+          },
+          {
+            "text": "o",
+            "start": 1.08,
+            "end": 1.184
+          },
+          {
+            "text": "áudio",
+            "start": 1.196,
+            "end": 1.531
+          },
+          {
+            "text": "e",
+            "start": 1.543,
+            "end": 1.555
+          },
+          {
+            "text": "entende",
+            "start": 1.566,
+            "end": 2.006
+          },
+          {
+            "text": "que",
+            "start": 2.018,
+            "end": 2.075
+          },
+          {
+            "text": "a",
+            "start": 2.087,
+            "end": 2.133
+          },
+          {
+            "text": "paciente",
+            "start": 2.145,
+            "end": 2.654
+          },
+          {
+            "text": "está",
+            "start": 2.666,
+            "end": 2.863
+          },
+          {
+            "text": "com",
+            "start": 2.874,
+            "end": 3.025
+          },
+          {
+            "text": "dor",
+            "start": 3.036,
+            "end": 3.302
+          },
+          {
+            "text": "e",
+            "start": 3.314,
+            "end": 3.36
+          },
+          {
+            "text": "precisa",
+            "start": 3.372,
+            "end": 3.788
+          },
+          {
+            "text": "de",
+            "start": 3.8,
+            "end": 3.893
+          },
+          {
+            "text": "um",
+            "start": 3.904,
+            "end": 3.997
+          },
+          {
+            "text": "horário",
+            "start": 4.008,
+            "end": 4.321
+          },
+          {
+            "text": "urgente",
+            "start": 4.332,
+            "end": 4.83
+          }
+        ]
+      }
     },
     {
       "id": "s06-agenda",
       "narration": "Depois consulta a agenda da dentista e oferece dois horários disponíveis.",
-      "emphasis": ["agenda"],
+      "emphasis": [
+        "agenda"
+      ],
       "component": "Calendar",
       "props": {
         "title": "Agenda · Dra. Ana Lima",
         "date": "sexta, 8 nov",
-        "hours": [8, 16],
+        "hours": [
+          8,
+          16
+        ],
         "events": [
-          { "id": "e1", "title": "Limpeza · João P.", "start": "08:00", "end": "09:30", "kind": "busy" },
-          { "id": "livre1", "title": "Livre · 9h30", "start": "09:30", "end": "10:00", "kind": "free" },
-          { "id": "e2", "title": "Canal · Paula R.", "start": "10:00", "end": "11:30", "kind": "busy" },
-          { "id": "e3", "title": "Almoço", "start": "11:30", "end": "13:00", "kind": "break" },
-          { "id": "e4", "title": "Clareamento · Bia L.", "start": "13:00", "end": "14:00", "kind": "busy" },
-          { "id": "livre2", "title": "Livre · 14h", "start": "14:00", "end": "14:30", "kind": "free" },
-          { "id": "e5", "title": "Revisão · Caio", "start": "14:30", "end": "16:00", "kind": "busy" }
+          {
+            "id": "e1",
+            "title": "Limpeza · João P.",
+            "start": "08:00",
+            "end": "09:30",
+            "kind": "busy"
+          },
+          {
+            "id": "livre1",
+            "title": "Livre · 9h30",
+            "start": "09:30",
+            "end": "10:00",
+            "kind": "free"
+          },
+          {
+            "id": "e2",
+            "title": "Canal · Paula R.",
+            "start": "10:00",
+            "end": "11:30",
+            "kind": "busy"
+          },
+          {
+            "id": "e3",
+            "title": "Almoço",
+            "start": "11:30",
+            "end": "13:00",
+            "kind": "break"
+          },
+          {
+            "id": "e4",
+            "title": "Clareamento · Bia L.",
+            "start": "13:00",
+            "end": "14:00",
+            "kind": "busy"
+          },
+          {
+            "id": "livre2",
+            "title": "Livre · 14h",
+            "start": "14:00",
+            "end": "14:30",
+            "kind": "free"
+          },
+          {
+            "id": "e5",
+            "title": "Revisão · Caio",
+            "start": "14:30",
+            "end": "16:00",
+            "kind": "busy"
+          }
         ],
         "side": {
           "title": "Pra Mariana",
           "subtitle": "horários livres pra amanhã",
-          "options": [ { "id": "o1", "label": "9h30" }, { "id": "o2", "label": "14h" } ]
+          "options": [
+            {
+              "id": "o1",
+              "label": "9h30"
+            },
+            {
+              "id": "o2",
+              "label": "14h"
+            }
+          ]
         }
       },
       "actions": [
-        { "at": "agenda", "do": "scan" },
-        { "at": "dois horários", "do": "show", "target": "livre1" },
-        { "at": "horários", "do": "show", "target": "livre2" },
-        { "at": "disponíveis", "do": "show", "target": "o1" },
-        { "at": "disponíveis", "do": "show", "target": "o2" }
+        {
+          "at": "agenda",
+          "do": "scan",
+          "target": null
+        },
+        {
+          "at": "dois horários",
+          "do": "show",
+          "target": "livre1"
+        },
+        {
+          "at": "horários",
+          "do": "show",
+          "target": "livre2"
+        },
+        {
+          "at": "disponíveis",
+          "do": "show",
+          "target": "o1"
+        },
+        {
+          "at": "disponíveis",
+          "do": "show",
+          "target": "o2"
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s06-agenda.mp3",
+        "duration": 4.848,
+        "words": [
+          {
+            "text": "Depois",
+            "start": 0.096,
+            "end": 0.571
+          },
+          {
+            "text": "consulta",
+            "start": 0.582,
+            "end": 1.057
+          },
+          {
+            "text": "a",
+            "start": 1.069,
+            "end": 1.08
+          },
+          {
+            "text": "agenda",
+            "start": 1.092,
+            "end": 1.404
+          },
+          {
+            "text": "da",
+            "start": 1.416,
+            "end": 1.508
+          },
+          {
+            "text": "dentista",
+            "start": 1.52,
+            "end": 2.029
+          },
+          {
+            "text": "e",
+            "start": 2.041,
+            "end": 2.075
+          },
+          {
+            "text": "oferece",
+            "start": 2.087,
+            "end": 2.515
+          },
+          {
+            "text": "dois",
+            "start": 2.527,
+            "end": 2.805
+          },
+          {
+            "text": "horários",
+            "start": 2.816,
+            "end": 3.268
+          },
+          {
+            "text": "disponíveis",
+            "start": 3.279,
+            "end": 4.043
+          }
+        ],
+        "text_hash": "cc5d8fed0dc55bcf",
+        "raw_words": [
+          {
+            "text": "Depois",
+            "start": 0.096,
+            "end": 0.571
+          },
+          {
+            "text": "consulta",
+            "start": 0.582,
+            "end": 1.057
+          },
+          {
+            "text": "a",
+            "start": 1.069,
+            "end": 1.08
+          },
+          {
+            "text": "agenda",
+            "start": 1.092,
+            "end": 1.404
+          },
+          {
+            "text": "da",
+            "start": 1.416,
+            "end": 1.508
+          },
+          {
+            "text": "dentista",
+            "start": 1.52,
+            "end": 2.029
+          },
+          {
+            "text": "e",
+            "start": 2.041,
+            "end": 2.075
+          },
+          {
+            "text": "oferece",
+            "start": 2.087,
+            "end": 2.515
+          },
+          {
+            "text": "dois",
+            "start": 2.527,
+            "end": 2.805
+          },
+          {
+            "text": "horários",
+            "start": 2.816,
+            "end": 3.268
+          },
+          {
+            "text": "disponíveis",
+            "start": 3.279,
+            "end": 4.043
+          }
+        ]
+      }
     },
     {
       "id": "s07-confirma",
       "narration": "A paciente escolhe 9h30. O agente confirma, registra na planilha e envia a localização da clínica.",
-      "emphasis": ["9h30", "confirma"],
+      "emphasis": [
+        "9h30",
+        "confirma"
+      ],
       "component": "WhatsAppChat",
       "props": {
-        "contact": { "name": "Mariana Souza", "subtitle": "online" },
+        "contact": {
+          "name": "Mariana Souza",
+          "subtitle": "online"
+        },
         "messages": [
-          { "id": "oferta", "sender": "me", "kind": "text", "text": "Tenho amanhã às 9h30 ou às 14h. Qual você prefere?", "time": "23:47" },
-          { "id": "escolha", "sender": "them", "kind": "text", "text": "9h30, por favor!", "time": "23:48" },
-          { "id": "confirmacao", "sender": "me", "kind": "text", "text": "Consulta confirmada: sexta, 9h30, com a Dra. Ana Lima.", "time": "23:48" },
-          { "id": "local", "sender": "me", "kind": "text", "text": "Localização: Rua das Flores, 120 · Centro", "time": "23:48" }
+          {
+            "id": "oferta",
+            "sender": "me",
+            "kind": "text",
+            "text": "Tenho amanhã às 9h30 ou às 14h. Qual você prefere?",
+            "time": "23:47"
+          },
+          {
+            "id": "escolha",
+            "sender": "them",
+            "kind": "text",
+            "text": "9h30, por favor!",
+            "time": "23:48"
+          },
+          {
+            "id": "confirmacao",
+            "sender": "me",
+            "kind": "text",
+            "text": "Consulta confirmada: sexta, 9h30, com a Dra. Ana Lima.",
+            "time": "23:48"
+          },
+          {
+            "id": "local",
+            "sender": "me",
+            "kind": "text",
+            "text": "Localização: Rua das Flores, 120 · Centro",
+            "time": "23:48"
+          }
         ],
         "composer": "idle"
       },
       "actions": [
-        { "at": "escolhe", "do": "show", "target": "escolha" },
-        { "at": "confirma", "do": "typing", "target": "confirmacao" },
-        { "at": "envia", "do": "show", "target": "local" }
+        {
+          "at": "escolhe",
+          "do": "show",
+          "target": "escolha"
+        },
+        {
+          "at": "confirma",
+          "do": "typing",
+          "target": "confirmacao"
+        },
+        {
+          "at": "envia",
+          "do": "show",
+          "target": "local"
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s07-confirma.mp3",
+        "duration": 7.776,
+        "words": [
+          {
+            "text": "A",
+            "start": 0.096,
+            "end": 0.212
+          },
+          {
+            "text": "paciente",
+            "start": 0.224,
+            "end": 0.756
+          },
+          {
+            "text": "escolhe",
+            "start": 0.768,
+            "end": 1.115
+          },
+          {
+            "text": "9h30",
+            "start": 1.126,
+            "end": 2.226
+          },
+          {
+            "text": "O",
+            "start": 3.021,
+            "end": 3.125
+          },
+          {
+            "text": "agente",
+            "start": 3.137,
+            "end": 3.495
+          },
+          {
+            "text": "confirma",
+            "start": 3.507,
+            "end": 4.005
+          },
+          {
+            "text": "registra",
+            "start": 4.248,
+            "end": 4.722
+          },
+          {
+            "text": "na",
+            "start": 4.734,
+            "end": 4.838
+          },
+          {
+            "text": "planilha",
+            "start": 4.85,
+            "end": 5.324
+          },
+          {
+            "text": "e",
+            "start": 5.336,
+            "end": 5.394
+          },
+          {
+            "text": "envia",
+            "start": 5.405,
+            "end": 5.718
+          },
+          {
+            "text": "a",
+            "start": 5.729,
+            "end": 5.741
+          },
+          {
+            "text": "localização",
+            "start": 5.752,
+            "end": 6.366
+          },
+          {
+            "text": "da",
+            "start": 6.377,
+            "end": 6.493
+          },
+          {
+            "text": "clínica",
+            "start": 6.505,
+            "end": 6.968
+          }
+        ],
+        "text_hash": "b5b32ce037d1ec9c",
+        "raw_words": [
+          {
+            "text": "A",
+            "start": 0.096,
+            "end": 0.212
+          },
+          {
+            "text": "paciente",
+            "start": 0.224,
+            "end": 0.756
+          },
+          {
+            "text": "escolhe",
+            "start": 0.768,
+            "end": 1.115
+          },
+          {
+            "text": "9h30",
+            "start": 1.126,
+            "end": 2.226
+          },
+          {
+            "text": "O",
+            "start": 3.021,
+            "end": 3.125
+          },
+          {
+            "text": "agente",
+            "start": 3.137,
+            "end": 3.495
+          },
+          {
+            "text": "confirma",
+            "start": 3.507,
+            "end": 4.005
+          },
+          {
+            "text": "registra",
+            "start": 4.248,
+            "end": 4.722
+          },
+          {
+            "text": "na",
+            "start": 4.734,
+            "end": 4.838
+          },
+          {
+            "text": "planilha",
+            "start": 4.85,
+            "end": 5.324
+          },
+          {
+            "text": "e",
+            "start": 5.336,
+            "end": 5.394
+          },
+          {
+            "text": "envia",
+            "start": 5.405,
+            "end": 5.718
+          },
+          {
+            "text": "a",
+            "start": 5.729,
+            "end": 5.741
+          },
+          {
+            "text": "localização",
+            "start": 5.752,
+            "end": 6.366
+          },
+          {
+            "text": "da",
+            "start": 6.377,
+            "end": 6.493
+          },
+          {
+            "text": "clínica",
+            "start": 6.505,
+            "end": 6.968
+          }
+        ]
+      }
     },
     {
       "id": "s08-tempo",
       "narration": "Tudo isso em 41 segundos.",
-      "emphasis": ["41 segundos"],
+      "emphasis": [
+        "41 segundos"
+      ],
       "component": "Stopwatch",
       "props": {
         "total_seconds": 41,
         "steps": [
-          { "id": "t1", "at_seconds": 6, "label": "transcreveu" },
-          { "id": "t2", "at_seconds": 12, "label": "triagem" },
-          { "id": "t3", "at_seconds": 24, "label": "agenda" },
-          { "id": "t4", "at_seconds": 41, "label": "confirmou" }
+          {
+            "id": "t1",
+            "at_seconds": 6,
+            "label": "transcreveu"
+          },
+          {
+            "id": "t2",
+            "at_seconds": 12,
+            "label": "triagem"
+          },
+          {
+            "id": "t3",
+            "at_seconds": 24,
+            "label": "agenda"
+          },
+          {
+            "id": "t4",
+            "at_seconds": 41,
+            "label": "confirmou"
+          }
         ]
       },
       "actions": [
-        { "at": "Tudo", "do": "mark", "target": "t1" },
-        { "at": "isso", "do": "mark", "target": "t2" },
-        { "at": "em", "do": "mark", "target": "t3" },
-        { "at": "41 segundos", "do": "mark", "target": "t4" }
+        {
+          "at": "Tudo",
+          "do": "mark",
+          "target": "t1"
+        },
+        {
+          "at": "isso",
+          "do": "mark",
+          "target": "t2"
+        },
+        {
+          "at": "em",
+          "do": "mark",
+          "target": "t3"
+        },
+        {
+          "at": "41 segundos",
+          "do": "mark",
+          "target": "t4"
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s08-tempo.mp3",
+        "duration": 2.76,
+        "words": [
+          {
+            "text": "Tudo",
+            "start": 0.096,
+            "end": 0.409
+          },
+          {
+            "text": "isso",
+            "start": 0.42,
+            "end": 0.663
+          },
+          {
+            "text": "em",
+            "start": 0.675,
+            "end": 0.721
+          },
+          {
+            "text": "41",
+            "start": 0.733,
+            "end": 0.978
+          },
+          {
+            "text": "segundos",
+            "start": 0.978,
+            "end": 1.96
+          }
+        ],
+        "text_hash": "9533c227430ffaf1",
+        "raw_words": [
+          {
+            "text": "Tudo",
+            "start": 0.096,
+            "end": 0.409
+          },
+          {
+            "text": "isso",
+            "start": 0.42,
+            "end": 0.663
+          },
+          {
+            "text": "em",
+            "start": 0.675,
+            "end": 0.721
+          },
+          {
+            "text": "41 segundos",
+            "start": 0.733,
+            "end": 1.96
+          }
+        ]
+      }
     },
     {
       "id": "s09-manha",
       "narration": "E quando a dentista acorda, já tem três novas pacientes agendadas durante a madrugada.",
-      "emphasis": ["madrugada"],
+      "emphasis": [
+        "madrugada"
+      ],
       "component": "PhoneLockScreen",
       "props": {
         "time": "7:00",
         "date": "sexta-feira, 8 de novembro",
-        "alarm": { "id": "despertador", "label": "Despertador", "sub": "7:00 · consultório às 8h" },
+        "alarm": {
+          "id": "despertador",
+          "label": "Despertador",
+          "sub": "7:00 · consultório às 8h"
+        },
         "notifications": [
-          { "id": "n1", "app": "calendar", "title": "Nova consulta agendada", "body": "Mariana S. · sex 9h30", "meta": "marcada às 23:48" },
-          { "id": "n2", "app": "calendar", "title": "Nova consulta agendada", "body": "Pedro A. · sex 10h30", "meta": "marcada à 1:12" },
-          { "id": "n3", "app": "calendar", "title": "Nova consulta agendada", "body": "Carla M. · sex 14h", "meta": "marcada às 4:36" }
+          {
+            "id": "n1",
+            "app": "calendar",
+            "title": "Nova consulta agendada",
+            "body": "Mariana S. · sex 9h30",
+            "meta": "marcada às 23:48"
+          },
+          {
+            "id": "n2",
+            "app": "calendar",
+            "title": "Nova consulta agendada",
+            "body": "Pedro A. · sex 10h30",
+            "meta": "marcada à 1:12"
+          },
+          {
+            "id": "n3",
+            "app": "calendar",
+            "title": "Nova consulta agendada",
+            "body": "Carla M. · sex 14h",
+            "meta": "marcada às 4:36"
+          }
         ]
       },
       "actions": [
-        { "at": "acorda", "do": "press", "target": "despertador" },
-        { "at": "três", "do": "show", "target": "n1" },
-        { "at": "novas", "do": "show", "target": "n2" },
-        { "at": "agendadas", "do": "show", "target": "n3" }
+        {
+          "at": "acorda",
+          "do": "press",
+          "target": "despertador"
+        },
+        {
+          "at": "três",
+          "do": "show",
+          "target": "n1"
+        },
+        {
+          "at": "novas",
+          "do": "show",
+          "target": "n2"
+        },
+        {
+          "at": "agendadas",
+          "do": "show",
+          "target": "n3"
+        }
       ],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s09-manha.mp3",
+        "duration": 5.424,
+        "words": [
+          {
+            "text": "E",
+            "start": 0.096,
+            "end": 0.2
+          },
+          {
+            "text": "quando",
+            "start": 0.212,
+            "end": 0.409
+          },
+          {
+            "text": "a",
+            "start": 0.42,
+            "end": 0.467
+          },
+          {
+            "text": "dentista",
+            "start": 0.478,
+            "end": 0.918
+          },
+          {
+            "text": "acorda",
+            "start": 0.93,
+            "end": 1.346
+          },
+          {
+            "text": "já",
+            "start": 1.578,
+            "end": 1.694
+          },
+          {
+            "text": "tem",
+            "start": 1.705,
+            "end": 1.937
+          },
+          {
+            "text": "três",
+            "start": 1.948,
+            "end": 2.226
+          },
+          {
+            "text": "novas",
+            "start": 2.237,
+            "end": 2.527
+          },
+          {
+            "text": "pacientes",
+            "start": 2.538,
+            "end": 3.094
+          },
+          {
+            "text": "agendadas",
+            "start": 3.106,
+            "end": 3.696
+          },
+          {
+            "text": "durante",
+            "start": 3.707,
+            "end": 4.02
+          },
+          {
+            "text": "a",
+            "start": 4.032,
+            "end": 4.043
+          },
+          {
+            "text": "madrugada",
+            "start": 4.055,
+            "end": 4.61
+          }
+        ],
+        "text_hash": "158fe58fc008c43c",
+        "raw_words": [
+          {
+            "text": "E",
+            "start": 0.096,
+            "end": 0.2
+          },
+          {
+            "text": "quando",
+            "start": 0.212,
+            "end": 0.409
+          },
+          {
+            "text": "a",
+            "start": 0.42,
+            "end": 0.467
+          },
+          {
+            "text": "dentista",
+            "start": 0.478,
+            "end": 0.918
+          },
+          {
+            "text": "acorda",
+            "start": 0.93,
+            "end": 1.346
+          },
+          {
+            "text": "já",
+            "start": 1.578,
+            "end": 1.694
+          },
+          {
+            "text": "tem",
+            "start": 1.705,
+            "end": 1.937
+          },
+          {
+            "text": "três",
+            "start": 1.948,
+            "end": 2.226
+          },
+          {
+            "text": "novas",
+            "start": 2.237,
+            "end": 2.527
+          },
+          {
+            "text": "pacientes",
+            "start": 2.538,
+            "end": 3.094
+          },
+          {
+            "text": "agendadas",
+            "start": 3.106,
+            "end": 3.696
+          },
+          {
+            "text": "durante",
+            "start": 3.707,
+            "end": 4.02
+          },
+          {
+            "text": "a",
+            "start": 4.032,
+            "end": 4.043
+          },
+          {
+            "text": "madrugada",
+            "start": 4.055,
+            "end": 4.61
+          }
+        ]
+      }
     },
     {
       "id": "s10-cta",
-      "narration": "Quer aprender a montar esse agente? Comenta agenda aqui que eu te envio o fluxo completo.",
-      "emphasis": ["agenda", "fluxo"],
+      "narration": "Quer montar esse agente? Comenta agenda que eu te envio o fluxo completo.",
+      "emphasis": [
+        "agenda",
+        "fluxo"
+      ],
       "component": "Hook",
-      "props": { "text": "Comente AGENDA" },
+      "props": {
+        "text": "Comente AGENDA"
+      },
       "actions": [],
       "camera": "push_in",
-      "transition": "blur_zoom"
+      "transition": "blur_zoom",
+      "sfx": {
+        "enabled": true
+      },
+      "media": null,
+      "audio": {
+        "file": "audio/s10-cta.mp3",
+        "duration": 5.448,
+        "words": [
+          {
+            "text": "Quer",
+            "start": 0.096,
+            "end": 0.293
+          },
+          {
+            "text": "montar",
+            "start": 0.305,
+            "end": 0.71
+          },
+          {
+            "text": "esse",
+            "start": 0.721,
+            "end": 0.872
+          },
+          {
+            "text": "agente",
+            "start": 0.883,
+            "end": 1.335
+          },
+          {
+            "text": "Comenta",
+            "start": 2.13,
+            "end": 2.558
+          },
+          {
+            "text": "agenda",
+            "start": 2.569,
+            "end": 2.963
+          },
+          {
+            "text": "que",
+            "start": 2.975,
+            "end": 3.067
+          },
+          {
+            "text": "eu",
+            "start": 3.079,
+            "end": 3.171
+          },
+          {
+            "text": "te",
+            "start": 3.183,
+            "end": 3.275
+          },
+          {
+            "text": "envio",
+            "start": 3.287,
+            "end": 3.646
+          },
+          {
+            "text": "o",
+            "start": 3.657,
+            "end": 3.681
+          },
+          {
+            "text": "fluxo",
+            "start": 3.692,
+            "end": 4.086
+          },
+          {
+            "text": "completo",
+            "start": 4.097,
+            "end": 4.63
+          }
+        ],
+        "text_hash": "adddbd7df2634371",
+        "raw_words": [
+          {
+            "text": "Quer",
+            "start": 0.096,
+            "end": 0.293
+          },
+          {
+            "text": "montar",
+            "start": 0.305,
+            "end": 0.71
+          },
+          {
+            "text": "esse",
+            "start": 0.721,
+            "end": 0.872
+          },
+          {
+            "text": "agente",
+            "start": 0.883,
+            "end": 1.335
+          },
+          {
+            "text": "Comenta",
+            "start": 2.13,
+            "end": 2.558
+          },
+          {
+            "text": "agenda",
+            "start": 2.569,
+            "end": 2.963
+          },
+          {
+            "text": "que",
+            "start": 2.975,
+            "end": 3.067
+          },
+          {
+            "text": "eu",
+            "start": 3.079,
+            "end": 3.171
+          },
+          {
+            "text": "te",
+            "start": 3.183,
+            "end": 3.275
+          },
+          {
+            "text": "envio",
+            "start": 3.287,
+            "end": 3.646
+          },
+          {
+            "text": "o",
+            "start": 3.657,
+            "end": 3.681
+          },
+          {
+            "text": "fluxo",
+            "start": 3.692,
+            "end": 4.086
+          },
+          {
+            "text": "completo",
+            "start": 4.097,
+            "end": 4.63
+          }
+        ]
+      }
     }
   ],
-  "status": { "plan": "done", "narration": "pending", "render": "pending", "errors": {} }
+  "status": {
+    "plan": "done",
+    "narration": "done",
+    "render": "pending",
+    "errors": {}
+  }
 }
