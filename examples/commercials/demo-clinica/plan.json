@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "id": "demo-clinica",
+  "brief": {
+    "topic": "Agente de IA que agenda consultas pelo WhatsApp para clínicas odontológicas",
+    "audience": "Quem quer vender automação com IA para clínicas",
+    "target_seconds": 50,
+    "tone": "direto, provocativo, coloquial",
+    "cta": "Comente AGENDA"
+  },
+  "voice": { "provider": "edge", "name": "pt-BR-AntonioNeural", "rate": "+8%", "scene_gap_seconds": 0.25 },
+  "music": { "file": "resource/songs/output003.mp3", "speech_db": -18, "gap_db": -9, "fade_in": 0.5, "fade_out": 1.5 },
+  "captions": { "enabled": true, "max_words": 4, "max_chars": 18, "y_percent": 60, "font_size": 64, "highlight_color": "#8FB8FF" },
+  "scenes": [
+    {
+      "id": "s01-gancho",
+      "narration": "Você pode vender automação pra clínica odontológica por 3 mil reais.",
+      "emphasis": ["automação", "3 mil"],
+      "component": "PhoneLockScreen",
+      "props": {
+        "time": "14:20",
+        "date": "quinta-feira, 7 de novembro",
+        "notifications": [
+          { "id": "pix", "app": "pix", "title": "Pix recebido", "body": "R$ 3.000,00", "meta": "Clínica Exemplo" }
+        ]
+      },
+      "actions": [ { "at": "3 mil", "do": "show", "target": "pix" } ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s02-madrugada",
+      "narration": "E olha só. São 23h47 e uma paciente manda um áudio no WhatsApp da clínica.",
+      "emphasis": ["23h47"],
+      "component": "PhoneLockScreen",
+      "props": {
+        "time": "23:47",
+        "date": "quinta-feira, 7 de novembro",
+        "notifications": [
+          { "id": "audio", "app": "whatsapp", "title": "Mariana Souza", "body": "Mensagem de voz (0:14)", "meta": "agora" }
+        ]
+      },
+      "actions": [ { "at": "áudio", "do": "show", "target": "audio" } ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s03-fechado",
+      "narration": "Só que o consultório já tá fechado. Sem resposta, ela procuraria outro dentista.",
+      "emphasis": ["fechado"],
+      "component": "WhatsAppChat",
+      "props": {
+        "contact": { "name": "Clínica Exemplo", "subtitle": "Conta comercial" },
+        "messages": [
+          { "id": "auto", "sender": "them", "kind": "text", "text": "Olá! Bem-vindo à Clínica Exemplo. Atendemos de seg a sex, das 8h às 18h.", "time": "18:02" },
+          { "id": "voz", "sender": "me", "kind": "audio", "audio_seconds": 14, "time": "23:47" }
+        ],
+        "composer": "idle"
+      },
+      "actions": [ { "at": "consultório", "do": "show", "target": "voz" } ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s04-agente",
+      "narration": "Mas essa clínica tem um agente de inteligência artificial atendendo 24 horas.",
+      "emphasis": ["agente", "24 horas"],
+      "component": "AgentFlow",
+      "props": {
+        "title": "Agente · Clínica Exemplo",
+        "toggle_off": "Desligado",
+        "toggle_on": "Ativo 24h",
+        "steps": [
+          { "id": "wa", "icon": "whatsapp", "title": "WhatsApp", "subtitle": "nova mensagem ou áudio" },
+          { "id": "transcrever", "icon": "mic", "title": "Transcrever áudio", "subtitle": "voz → texto" },
+          { "id": "ia", "icon": "ai", "title": "Agente de IA", "subtitle": "entende e decide" },
+          { "id": "agenda", "icon": "calendar", "title": "Agenda", "subtitle": "horários da dentista" },
+          { "id": "responder", "icon": "whatsapp", "title": "Responder no WhatsApp", "subtitle": "confirma e manda a localização" }
+        ],
+        "dial_label": "24h",
+        "counter": { "label": "atendimentos hoje", "start": 0, "end": 37 }
+      },
+      "actions": [
+        { "at": "agente", "do": "activate", "target": "ia" },
+        { "at": "atendendo", "do": "count" },
+        { "at": "24 horas", "do": "toggle" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s05-transcreve",
+      "narration": "Primeiro ele transcreve o áudio e entende que a paciente está com dor e precisa de um horário urgente.",
+      "emphasis": ["transcreve", "urgente"],
+      "component": "WhatsAppChat",
+      "props": {
+        "contact": { "name": "Mariana Souza", "subtitle": "online" },
+        "messages": [
+          { "id": "voz", "sender": "them", "kind": "audio", "audio_seconds": 14, "time": "23:47" },
+          { "id": "resposta", "sender": "me", "kind": "text", "text": "Oi, Mariana! Entendi: dor forte no dente. Vou buscar um horário urgente pra você.", "time": "23:47" }
+        ],
+        "composer": "idle"
+      },
+      "actions": [
+        { "at": "transcreve", "do": "play", "target": "voz" },
+        { "at": "precisa", "do": "typing", "target": "resposta" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s06-agenda",
+      "narration": "Depois consulta a agenda da dentista e oferece dois horários disponíveis.",
+      "emphasis": ["agenda"],
+      "component": "Calendar",
+      "props": {
+        "title": "Agenda · Dra. Ana Lima",
+        "date": "sexta, 8 nov",
+        "hours": [8, 16],
+        "events": [
+          { "id": "e1", "title": "Limpeza · João P.", "start": "08:00", "end": "09:30", "kind": "busy" },
+          { "id": "livre1", "title": "Livre · 9h30", "start": "09:30", "end": "10:00", "kind": "free" },
+          { "id": "e2", "title": "Canal · Paula R.", "start": "10:00", "end": "11:30", "kind": "busy" },
+          { "id": "e3", "title": "Almoço", "start": "11:30", "end": "13:00", "kind": "break" },
+          { "id": "e4", "title": "Clareamento · Bia L.", "start": "13:00", "end": "14:00", "kind": "busy" },
+          { "id": "livre2", "title": "Livre · 14h", "start": "14:00", "end": "14:30", "kind": "free" },
+          { "id": "e5", "title": "Revisão · Caio", "start": "14:30", "end": "16:00", "kind": "busy" }
+        ],
+        "side": {
+          "title": "Pra Mariana",
+          "subtitle": "horários livres pra amanhã",
+          "options": [ { "id": "o1", "label": "9h30" }, { "id": "o2", "label": "14h" } ]
+        }
+      },
+      "actions": [
+        { "at": "agenda", "do": "scan" },
+        { "at": "dois horários", "do": "show", "target": "livre1" },
+        { "at": "horários", "do": "show", "target": "livre2" },
+        { "at": "disponíveis", "do": "show", "target": "o1" },
+        { "at": "disponíveis", "do": "show", "target": "o2" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s07-confirma",
+      "narration": "A paciente escolhe 9h30. O agente confirma, registra na planilha e envia a localização da clínica.",
+      "emphasis": ["9h30", "confirma"],
+      "component": "WhatsAppChat",
+      "props": {
+        "contact": { "name": "Mariana Souza", "subtitle": "online" },
+        "messages": [
+          { "id": "oferta", "sender": "me", "kind": "text", "text": "Tenho amanhã às 9h30 ou às 14h. Qual você prefere?", "time": "23:47" },
+          { "id": "escolha", "sender": "them", "kind": "text", "text": "9h30, por favor!", "time": "23:48" },
+          { "id": "confirmacao", "sender": "me", "kind": "text", "text": "Consulta confirmada: sexta, 9h30, com a Dra. Ana Lima.", "time": "23:48" },
+          { "id": "local", "sender": "me", "kind": "text", "text": "Localização: Rua das Flores, 120 · Centro", "time": "23:48" }
+        ],
+        "composer": "idle"
+      },
+      "actions": [
+        { "at": "escolhe", "do": "show", "target": "escolha" },
+        { "at": "confirma", "do": "typing", "target": "confirmacao" },
+        { "at": "envia", "do": "show", "target": "local" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s08-tempo",
+      "narration": "Tudo isso em 41 segundos.",
+      "emphasis": ["41 segundos"],
+      "component": "Stopwatch",
+      "props": {
+        "total_seconds": 41,
+        "steps": [
+          { "id": "t1", "at_seconds": 6, "label": "transcreveu" },
+          { "id": "t2", "at_seconds": 12, "label": "triagem" },
+          { "id": "t3", "at_seconds": 24, "label": "agenda" },
+          { "id": "t4", "at_seconds": 41, "label": "confirmou" }
+        ]
+      },
+      "actions": [
+        { "at": "Tudo", "do": "mark", "target": "t1" },
+        { "at": "isso", "do": "mark", "target": "t2" },
+        { "at": "em", "do": "mark", "target": "t3" },
+        { "at": "41 segundos", "do": "mark", "target": "t4" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s09-manha",
+      "narration": "E quando a dentista acorda, já tem três novas pacientes agendadas durante a madrugada.",
+      "emphasis": ["madrugada"],
+      "component": "PhoneLockScreen",
+      "props": {
+        "time": "7:00",
+        "date": "sexta-feira, 8 de novembro",
+        "alarm": { "id": "despertador", "label": "Despertador", "sub": "7:00 · consultório às 8h" },
+        "notifications": [
+          { "id": "n1", "app": "calendar", "title": "Nova consulta agendada", "body": "Mariana S. · sex 9h30", "meta": "marcada às 23:48" },
+          { "id": "n2", "app": "calendar", "title": "Nova consulta agendada", "body": "Pedro A. · sex 10h30", "meta": "marcada à 1:12" },
+          { "id": "n3", "app": "calendar", "title": "Nova consulta agendada", "body": "Carla M. · sex 14h", "meta": "marcada às 4:36" }
+        ]
+      },
+      "actions": [
+        { "at": "acorda", "do": "press", "target": "despertador" },
+        { "at": "três", "do": "show", "target": "n1" },
+        { "at": "novas", "do": "show", "target": "n2" },
+        { "at": "agendadas", "do": "show", "target": "n3" }
+      ],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    },
+    {
+      "id": "s10-cta",
+      "narration": "Quer aprender a montar esse agente? Comenta agenda aqui que eu te envio o fluxo completo.",
+      "emphasis": ["agenda", "fluxo"],
+      "component": "Hook",
+      "props": { "text": "Comente AGENDA" },
+      "actions": [],
+      "camera": "push_in",
+      "transition": "blur_zoom"
+    }
+  ],
+  "status": { "plan": "done", "narration": "pending", "render": "pending", "errors": {} }
+}
