@@ -6,8 +6,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-from app.services.commercial.narration import text_hash
-from app.services.commercial.schema import PLAN_FILE, Plan
+from app.services.commercial.schema import PLAN_FILE, Plan, text_hash
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROJECTS_ROOT = REPO_ROOT / "storage" / "commercials"
@@ -52,3 +51,14 @@ def invalidate_stale(plan: Plan) -> list[str]:
         plan.status.narration = "pending"
         plan.status.render = "pending"
     return changed
+
+
+def mark_render_stale(old: Plan | None, new: Plan) -> None:
+    """Qualquer mudança no plano (fora o status) invalida o vídeo já renderizado."""
+    if old is None:
+        return
+    before = old.model_dump(mode="json", exclude={"status"})
+    after = new.model_dump(mode="json", exclude={"status"})
+    if before != after:
+        new.status.render = "pending"
+        new.status.errors.pop("render", None)

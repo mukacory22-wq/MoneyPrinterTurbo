@@ -78,19 +78,22 @@ def _run(cmd: list[str], cwd: Path | None, log: Log) -> tuple[int, list[str]]:
 
 def render_raw(project_dir: Path, props_path: Path, public_dir: Path, log: Log = print) -> Path:
     """Chama o Remotion e devolve ``out/raw.mp4`` (H.264 + AAC, sem normalizar)."""
+    npm, npx = shutil.which("npm"), shutil.which("npx")
+    if not npm or not npx:
+        raise RenderError("npm/npx não encontrados: instale o Node.js 20+ para renderizar")
     if not (REMOTION_DIR / "node_modules").is_dir():
         raise RenderError(
             "dependências do Remotion não instaladas: rode `npm --prefix remotion install`"
         )
     code, lines = _run(
-        ["npm", "run", "--silent", "validate", "--", str(props_path.resolve())], REMOTION_DIR, log
+        [npm, "run", "--silent", "validate", "--", str(props_path.resolve())], REMOTION_DIR, log
     )
     if code != 0:
         raise RenderError("plano inválido para o Remotion:\n" + "\n".join(lines[-30:]))
 
     raw = Path(project_dir) / "out" / "raw.mp4"
     cmd = [
-        "npx", "remotion", "render", "src/index.ts", "Commercial", str(raw.resolve()),
+        npx, "remotion", "render", "src/index.ts", "Commercial", str(raw.resolve()),
         f"--props={props_path.resolve()}",
         f"--public-dir={public_dir.resolve()}",
         "--codec=h264", "--audio-codec=aac", "--crf=18", "--pixel-format=yuv420p",
@@ -209,6 +212,12 @@ def render_project(project_dir: Path, log: Log = print) -> Path:
             props = build_render_props(plan, project_dir=project_dir)
         except ValueError as exc:
             raise RenderError(str(exc)) from exc
+        seconds = props["durationInFrames"] / props["fps"]
+        if not MIN_SECONDS <= seconds <= MAX_SECONDS:
+            raise RenderError(
+                f"duração {seconds:.1f} s fora de {MIN_SECONDS:.0f}–{MAX_SECONDS:.0f} s: "
+                "ajuste o roteiro antes de renderizar"
+            )
         props_path = out / "props.json"
         props_path.write_text(json.dumps(props, ensure_ascii=False), encoding="utf-8")
         public = stage_public_dir(project_dir, plan)
@@ -220,11 +229,13 @@ def render_project(project_dir: Path, log: Log = print) -> Path:
         if problems:
             raise RenderError("vídeo fora do padrão: " + "; ".join(problems))
         _write_srt(props, out / "final.srt")
-    except RenderError as exc:
+    except (RenderError, OSError) as exc:
         plan.status.render = "failed"
         plan.status.errors["render"] = str(exc)
         save_plan(project_dir, plan)
-        raise
+        if isinstance(exc, RenderError):
+            raise
+        raise RenderError(f"falha de sistema durante o render: {exc}") from exc
     plan.status.render = "done"
     plan.status.errors.pop("render", None)
     save_plan(project_dir, plan)

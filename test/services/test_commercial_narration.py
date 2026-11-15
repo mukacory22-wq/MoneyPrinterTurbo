@@ -105,7 +105,7 @@ def test_narrate_failure_sets_status(project, fake_tts):
 
 def test_total_duration(project, fake_tts):
     plan = narration.narrate_project(project)
-    expected = sum(s.audio.duration + 0.25 for s in plan.scenes)
+    expected = sum(s.audio.duration + 0.25 for s in plan.scenes) + 0.8  # + respiro final
     assert narration.total_duration(plan) == pytest.approx(expected)
 
 

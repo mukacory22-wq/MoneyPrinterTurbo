@@ -96,9 +96,19 @@ def parse_plan_response(text: str, brief: Brief, plan_id: str) -> tuple[Plan | N
     except ValueError as exc:  # inclui json.JSONDecodeError
         return None, [f"JSON inválido: {exc}"]
     scenes = [
-        {k: v for k, v in scene.items() if k != "audio"} if isinstance(scene, dict) else scene
+        {k: v for k, v in scene.items() if k not in ("audio", "media")}
+        if isinstance(scene, dict) else scene
         for scene in data["scenes"]
     ]
+    not_allowed = sorted({
+        str(scene.get("component")) for scene in scenes
+        if isinstance(scene, dict) and scene.get("component") not in PLANNABLE
+    })
+    if not_allowed:
+        return None, [
+            f"componente não permitido: {name} (use um de: {', '.join(PLANNABLE)})"
+            for name in not_allowed
+        ]
     try:
         plan = Plan(
             id=plan_id,

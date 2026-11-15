@@ -8,6 +8,7 @@ interface.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Callable
 
@@ -29,6 +30,8 @@ VOICES = {
 }
 NEW_PROJECT = "__new__"
 KEY = "commercial"
+SELECT_KEY = f"{KEY}_project_select"
+PENDING_KEY = f"{KEY}_pending_project"
 
 Tr = Callable[[str], str]
 
@@ -81,10 +84,12 @@ def _start(project: Path, step: str, work, tr: Tr) -> None:
 
 
 @st.fragment(run_every=1.0)
-def _job_panel(tr: Tr) -> None:
+def _job_panel(tr: Tr, project: Path | None) -> None:
     job_id = st.session_state.get(f"{KEY}_job")
-    state = jobs.get(job_id) if job_id else None
-    if state is None:
+    own = jobs.get(job_id) if job_id else None
+    # Sem job próprio, mostra o que estiver rodando no projeto (outra aba/navegador).
+    state = own or (jobs.current(project) if project else None)
+    if state is None or (own is None and state.status != "running"):
         return
     labels = {
         "plan": tr("Commercial Step Plan"),
@@ -112,6 +117,10 @@ def _flash() -> None:
         getattr(st, flash[0])(flash[1])
 
 
+def _clamp(value: int, low: int, high: int) -> int:
+    return max(low, min(high, value))
+
+
 # ---------------------------------------------------------------------------
 # Passo 1 — briefing
 # ---------------------------------------------------------------------------
@@ -133,9 +142,9 @@ def _briefing(tr: Tr, busy: bool) -> None:
             return
         brief = Brief(topic=topic.strip(), audience=audience.strip(), target_seconds=seconds,
                       tone=tone.strip(), cta=cta.strip())
-        project = pipeline.new_project_dir(brief.topic)
+        project = pipeline.new_project_dir(brief.topic, pipeline.PROJECTS_ROOT)
         project.mkdir(parents=True)
-        st.session_state[f"{KEY}_project"] = project.name
+        st.session_state[PENDING_KEY] = project.name
         _start(project, "plan", _work_plan(project, brief), tr)
 
 
@@ -145,6 +154,9 @@ def _briefing(tr: Tr, busy: bool) -> None:
 
 def _save(project: Path, data: dict, tr: Tr) -> bool:
     """Valida e grava. Mostra os erros e devolve False se o plano for inválido."""
+    if jobs.is_running(project):
+        st.warning(tr("Commercial Job Busy"))
+        return False
     try:
         plan = Plan.model_validate(data)
     except ValidationError as exc:
@@ -156,24 +168,36 @@ def _save(project: Path, data: dict, tr: Tr) -> bool:
         for error in errors[:12]:
             st.error(error)
         return False
+    try:
+        previous = load_plan(project)
+    except (OSError, ValueError):
+        previous = None
     pipeline.invalidate_stale(plan)
+    pipeline.mark_render_stale(previous, plan)
     save_plan(project, plan)
     return True
 
 
-def _mutate(project: Path, plan: Plan, change: Callable[[dict], None], tr: Tr) -> None:
-    data = plan.model_dump(mode="json")
-    change(data)
-    if _save(project, data, tr):
-        st.rerun()
+def _draft_or_errors(draft: dict | None, parse_errors: list[str]) -> dict | None:
+    """O rascunho editado na tela; se algum JSON estiver quebrado, mostra o erro."""
+    if draft is None:
+        for error in parse_errors:
+            st.error(error)
+    return draft
 
 
-def _plan_editor(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
+def _plan_editor(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> tuple[dict | None, list[str]]:
+    """Desenha o editor e devolve (rascunho com as edições da tela, erros de JSON).
+
+    Todas as ações da aba (salvar, mover, apagar, narrar, renderizar) partem
+    desse rascunho, para que nenhuma edição ainda não salva seja descartada.
+    """
     st.markdown(f"#### 2 · {tr('Commercial Plan')}")
     st.caption(f"{plan.brief.topic} — {plan.brief.audience}")
     components = list(PROPS_MODELS)
     edited: list[dict] = []
     parse_errors: list[str] = []
+    operation: tuple[str, int] | None = None
 
     for index, scene in enumerate(plan.scenes):
         k = f"{KEY}_{project.name}_{rev}_{index}"
@@ -195,23 +219,24 @@ def _plan_editor(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> Non
                 help=f"{tr('Commercial Actions Help')} {', '.join(sorted(ACTIONS[component])) or '—'}",
             )
             media = scene.media
-            upload = st.file_uploader(tr("Commercial Media"), key=f"{k}_m",
-                                      type=sorted(assets.ALLOWED_EXTENSIONS))
-            if media:
-                st.caption(f"{tr('Commercial Media Current')}: {media}")
-            if upload is not None:
-                try:
-                    media = assets.import_media(project, scene.id, upload.name, upload.getvalue())
-                except assets.AssetError as exc:
-                    st.error(str(exc))
+            if component == "Media":  # só este tipo de cena usa arquivo externo
+                upload = st.file_uploader(tr("Commercial Media"), key=f"{k}_m",
+                                          type=sorted(assets.ALLOWED_EXTENSIONS))
+                if media:
+                    st.caption(f"{tr('Commercial Media Current')}: {media}")
+                if upload is not None:
+                    try:
+                        media = assets.import_media(project, scene.id, upload.name, upload.getvalue())
+                    except (assets.AssetError, OSError) as exc:
+                        st.error(str(exc))
 
             b1, b2, b3, _ = st.columns([1, 1, 1, 5])
             if b1.button("↑", key=f"{k}_up", disabled=busy or index == 0):
-                _mutate(project, plan, lambda d, i=index: d["scenes"].insert(i - 1, d["scenes"].pop(i)), tr)
+                operation = ("up", index)
             if b2.button("↓", key=f"{k}_down", disabled=busy or index == len(plan.scenes) - 1):
-                _mutate(project, plan, lambda d, i=index: d["scenes"].insert(i + 1, d["scenes"].pop(i)), tr)
+                operation = ("down", index)
             if b3.button("🗑", key=f"{k}_del", disabled=busy or len(plan.scenes) <= 3):
-                _mutate(project, plan, lambda d, i=index: d["scenes"].pop(i), tr)
+                operation = ("delete", index)
 
         item = scene.model_dump(mode="json")
         item.update(
@@ -227,28 +252,42 @@ def _plan_editor(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> Non
             parse_errors.append(f"{tr('Commercial Scene')} {index + 1}: JSON — {exc}")
         edited.append(item)
 
+    draft: dict | None = None
+    if not parse_errors:
+        draft = plan.model_dump(mode="json")
+        draft["scenes"] = edited
+
     c1, c2 = st.columns([1, 1])
     if c1.button(tr("Commercial Save Plan"), type="primary", disabled=busy, key=f"{KEY}_save_{rev}"):
-        if parse_errors:
-            for error in parse_errors:
-                st.error(error)
-        else:
-            data = plan.model_dump(mode="json")
-            data["scenes"] = edited
-            if _save(project, data, tr):
-                st.session_state[f"{KEY}_flash"] = ("success", tr("Commercial Plan Saved"))
-                st.rerun()
+        data = _draft_or_errors(draft, parse_errors)
+        if data is not None and _save(project, data, tr):
+            st.session_state[f"{KEY}_flash"] = ("success", tr("Commercial Plan Saved"))
+            st.rerun()
     if c2.button(tr("Commercial Add Scene"), disabled=busy or len(plan.scenes) >= 14, key=f"{KEY}_add_{rev}"):
-        def add(data: dict) -> None:
-            ids = {s["id"] for s in data["scenes"]}
-            number = len(data["scenes"]) + 1
-            while f"s{number:02d}-nova" in ids:
-                number += 1
-            data["scenes"].append({
-                "id": f"s{number:02d}-nova", "narration": "Nova cena.", "component": "Hook",
-                "props": {"text": "Nova cena"},
-            })
-        _mutate(project, plan, add, tr)
+        operation = ("add", len(plan.scenes))
+
+    if operation is not None:
+        data = _draft_or_errors(draft, parse_errors)
+        if data is not None:
+            kind, index = operation
+            scenes = data["scenes"]
+            if kind == "up":
+                scenes.insert(index - 1, scenes.pop(index))
+            elif kind == "down":
+                scenes.insert(index + 1, scenes.pop(index))
+            elif kind == "delete":
+                scenes.pop(index)
+            else:
+                ids = {s["id"] for s in scenes}
+                number = len(scenes) + 1
+                while f"s{number:02d}-nova" in ids:
+                    number += 1
+                scenes.append({
+                    "id": f"s{number:02d}-nova", "narration": "Nova cena.", "component": "Hook",
+                    "props": {"text": "Nova cena"},
+                })
+            if _save(project, data, tr):
+                st.rerun()
 
     with st.expander(tr("Commercial Raw JSON")):
         raw = st.text_area("plan.json", json.dumps(plan.model_dump(mode="json"), ensure_ascii=False, indent=2),
@@ -261,13 +300,15 @@ def _plan_editor(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> Non
             else:
                 if _save(project, data, tr):
                     st.rerun()
+    return draft, parse_errors
 
 
 # ---------------------------------------------------------------------------
 # Passo 3 — narração
 # ---------------------------------------------------------------------------
 
-def _narration(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
+def _narration(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool,
+               draft: dict | None, parse_errors: list[str]) -> None:
     from app.services.commercial.narration import total_duration
 
     st.markdown(f"#### 3 · {tr('Commercial Step Narration')}")
@@ -275,13 +316,14 @@ def _narration(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
     current = next((n for n, v in VOICES.items() if v == plan.voice.name), names[0])
     c1, c2 = st.columns(2)
     voice = c1.selectbox(tr("Commercial Voice"), names, index=names.index(current), key=f"{KEY}_voice_{rev}")
-    rate = c2.slider(tr("Commercial Voice Rate"), -20, 40, int(plan.voice.rate.rstrip("%")),
+    rate = c2.slider(tr("Commercial Voice Rate"), -20, 40, _clamp(int(plan.voice.rate.rstrip("%")), -20, 40),
                      format="%d%%", key=f"{KEY}_rate_{rev}")
     if st.button(tr("Commercial Generate Narration"), type="primary", disabled=busy, key=f"{KEY}_narrate"):
-        data = plan.model_dump(mode="json")
-        data["voice"].update(name=VOICES[voice], rate=f"{rate:+d}%")
-        if _save(project, data, tr):
-            _start(project, "narrate", _work_narrate(project), tr)
+        data = _draft_or_errors(draft, parse_errors)
+        if data is not None:
+            data["voice"].update(name=VOICES[voice], rate=f"{rate:+d}%")
+            if _save(project, data, tr):
+                _start(project, "narrate", _work_narrate(project), tr)
 
     done = [s for s in plan.scenes if s.audio]
     if not done:
@@ -305,7 +347,8 @@ def _narration(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
 # Passo 4 — render
 # ---------------------------------------------------------------------------
 
-def _render(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
+def _render(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool,
+            draft: dict | None, parse_errors: list[str]) -> None:
     st.markdown(f"#### 4 · {tr('Commercial Step Render')}")
     none_label = tr("Commercial No Music")
     songs = sorted(p.name for p in SONGS_DIR.glob("*.mp3")) if SONGS_DIR.is_dir() else []
@@ -315,33 +358,35 @@ def _render(project: Path, plan: Plan, rev: int, tr: Tr, busy: bool) -> None:
         options.append(current)
     c1, c2, c3 = st.columns([2, 1, 1])
     music = c1.selectbox(tr("Commercial Music"), options, index=options.index(current), key=f"{KEY}_music_{rev}")
-    speech_db = c2.slider(tr("Commercial Music Speech Volume"), -30, -6, int(plan.music.speech_db),
+    speech_db = c2.slider(tr("Commercial Music Speech Volume"), -30, -6, _clamp(int(plan.music.speech_db), -30, -6),
                           format="%d dB", key=f"{KEY}_sdb_{rev}")
-    gap_db = c3.slider(tr("Commercial Music Gap Volume"), -24, 0, int(plan.music.gap_db),
+    gap_db = c3.slider(tr("Commercial Music Gap Volume"), -24, 0, _clamp(int(plan.music.gap_db), -24, 0),
                        format="%d dB", key=f"{KEY}_gdb_{rev}")
     upload = st.file_uploader(tr("Commercial Music Upload"), type=["mp3", "wav", "m4a"], key=f"{KEY}_mup_{rev}")
     c4, c5, c6 = st.columns(3)
     captions_on = c4.checkbox(tr("Commercial Captions"), plan.captions.enabled, key=f"{KEY}_cap_{rev}")
-    y_percent = c5.slider(tr("Commercial Captions Position"), 40, 90, int(plan.captions.y_percent),
+    y_percent = c5.slider(tr("Commercial Captions Position"), 40, 90, _clamp(int(plan.captions.y_percent), 40, 90),
                           format="%d%%", key=f"{KEY}_capy_{rev}")
-    font_size = c6.slider(tr("Commercial Captions Size"), 40, 96, int(plan.captions.font_size),
+    font_size = c6.slider(tr("Commercial Captions Size"), 40, 96, _clamp(int(plan.captions.font_size), 40, 96),
                           key=f"{KEY}_caps_{rev}")
 
     ready = all(s.audio for s in plan.scenes)
     if not ready:
         st.caption(tr("Commercial Render Needs Narration"))
     if st.button(tr("Commercial Render"), type="primary", disabled=busy or not ready, key=f"{KEY}_render"):
-        data = plan.model_dump(mode="json")
-        music_file = None if music == none_label else music
-        if upload is not None:
-            target = project / "music" / Path(upload.name).name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(upload.getvalue())
-            music_file = f"music/{target.name}"
-        data["music"].update(file=music_file, speech_db=speech_db, gap_db=gap_db)
-        data["captions"].update(enabled=captions_on, y_percent=y_percent, font_size=font_size)
-        if _save(project, data, tr):
-            _start(project, "render", _work_render(project), tr)
+        data = _draft_or_errors(draft, parse_errors)
+        if data is not None:
+            music_file = None if music == none_label else music
+            if upload is not None:
+                name = re.sub(r"[^A-Za-z0-9._ -]", "_", Path(upload.name).name).lstrip(". ") or "trilha.mp3"
+                target = project / "music" / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(upload.getvalue())
+                music_file = f"music/{name}"
+            data["music"].update(file=music_file, speech_db=speech_db, gap_db=gap_db)
+            data["captions"].update(enabled=captions_on, y_percent=y_percent, font_size=font_size)
+            if _save(project, data, tr):
+                _start(project, "render", _work_render(project), tr)
 
     final = project / "out" / "final.mp4"
     if plan.status.render == "done" and final.is_file():
@@ -368,30 +413,36 @@ def render(tr: Tr) -> None:
     st.caption(tr("Commercial Intro"))
     _flash()
 
-    projects = pipeline.list_projects()
+    projects = pipeline.list_projects(pipeline.PROJECTS_ROOT)
     names = [NEW_PROJECT] + [p.name for p in projects]
-    selected = st.session_state.get(f"{KEY}_project", NEW_PROJECT)
+    # Um projeto recém-criado (ou pedido por outra parte da tela) passa a ser o
+    # selecionado; o seletor é a única fonte da verdade sobre o projeto aberto.
+    pending = st.session_state.pop(PENDING_KEY, None)
+    if pending:
+        st.session_state[SELECT_KEY] = pending
+    selected = st.session_state.get(SELECT_KEY, NEW_PROJECT)
     if selected not in names:
-        # projeto recém-criado ainda sem plano (job em andamento) continua selecionado
-        names.append(selected)
+        if (pipeline.PROJECTS_ROOT / selected).is_dir():
+            names.append(selected)  # projeto ainda sem plano (job de plano em andamento)
+        else:
+            st.session_state[SELECT_KEY] = NEW_PROJECT
     choice = st.selectbox(
-        tr("Commercial Project"), names, index=names.index(selected),
+        tr("Commercial Project"), names,
         format_func=lambda n: tr("Commercial New Project") if n == NEW_PROJECT else n,
-        key=f"{KEY}_project_select",
+        key=SELECT_KEY,
     )
-    if choice != selected:
-        st.session_state[f"{KEY}_project"] = choice
-        st.rerun()
 
+    project = None if choice == NEW_PROJECT else pipeline.PROJECTS_ROOT / choice
     job = jobs.get(st.session_state.get(f"{KEY}_job", ""))
-    busy = job is not None and job.status == "running"
-    _job_panel(tr)
+    busy = (job is not None and job.status == "running") or (
+        project is not None and jobs.is_running(project)
+    )
+    _job_panel(tr, project)
 
-    if choice == NEW_PROJECT:
+    if project is None:
         _briefing(tr, busy)
         return
 
-    project = pipeline.PROJECTS_ROOT / choice
     plan_file = project / "plan.json"
     if not plan_file.is_file():
         if not busy:
@@ -404,8 +455,8 @@ def render(tr: Tr) -> None:
         return
     rev = int(plan_file.stat().st_mtime * 1000)
 
-    _plan_editor(project, plan, rev, tr, busy)
+    draft, parse_errors = _plan_editor(project, plan, rev, tr, busy)
     st.divider()
-    _narration(project, plan, rev, tr, busy)
+    _narration(project, plan, rev, tr, busy, draft, parse_errors)
     st.divider()
-    _render(project, plan, rev, tr, busy)
+    _render(project, plan, rev, tr, busy, draft, parse_errors)

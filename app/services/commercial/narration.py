@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-import hashlib
 import os
 from pathlib import Path
 
@@ -14,8 +13,9 @@ from edge_tts.exceptions import EdgeTTSException
 from app.services.commercial.captions import AlignmentError, align_words
 from app.services.commercial.ffmpeg_utils import probe_duration
 from app.services.commercial.schema import (
-    Plan, SceneAudio, VoiceSettings, Word, load_plan, save_plan,
+    Plan, SceneAudio, VoiceSettings, Word, load_plan, save_plan, text_hash,
 )
+from app.services.commercial.timeline import TAIL_SECONDS
 
 RETRY_DELAYS: tuple[float, ...] = (2, 6, 15)  # esperas entre as 4 tentativas
 _NETWORK_ERRORS = (aiohttp.ClientError, EdgeTTSException, asyncio.TimeoutError, OSError)
@@ -23,11 +23,6 @@ _NETWORK_ERRORS = (aiohttp.ClientError, EdgeTTSException, asyncio.TimeoutError, 
 
 class NarrationError(RuntimeError):
     """A narração de uma cena não pôde ser gerada."""
-
-
-def text_hash(text: str, voice: VoiceSettings) -> str:
-    payload = f"{voice.provider}|{voice.name}|{voice.rate}|{text}"
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
 async def _stream_once(text: str, voice: VoiceSettings, out_path: Path) -> list[Word]:
@@ -76,9 +71,11 @@ async def synthesize_scene(
 
 
 def total_duration(plan: Plan) -> float:
-    return sum(
-        s.audio.duration + plan.voice.scene_gap_seconds for s in plan.scenes if s.audio
-    )
+    """Duração do vídeo final: falas + pausas entre cenas + respiro do fim."""
+    narrated = [s for s in plan.scenes if s.audio]
+    if not narrated:
+        return 0.0
+    return sum(s.audio.duration + plan.voice.scene_gap_seconds for s in narrated) + TAIL_SECONDS
 
 
 def narrate_project(project_dir: Path, force: bool = False) -> Plan:

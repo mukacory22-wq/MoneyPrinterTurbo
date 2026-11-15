@@ -4,7 +4,7 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource/caveat/500.css';
-import {continueRender, delayRender} from 'remotion';
+import {cancelRender, continueRender, delayRender} from 'remotion';
 
 /** Garante que as fontes embutidas estejam carregadas antes do primeiro quadro. */
 export const loadFonts = (): void => {
@@ -19,6 +19,7 @@ export const loadFonts = (): void => {
     document.fonts.load("italic 400 20px 'Instrument Serif'", sample),
     document.fonts.load("500 20px 'Caveat'", sample),
   ])
-    .catch(() => undefined)
-    .then(() => continueRender(handle));
+    // Sem as fontes o vídeo sairia com tipografia errada: falha com a causa.
+    .then(() => continueRender(handle))
+    .catch((error) => cancelRender(error));
 };

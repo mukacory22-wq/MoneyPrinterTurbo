@@ -11,7 +11,7 @@ from pathlib import Path
 
 from app.services.commercial.captions import find_phrase, group_captions, tokenize, normalize_token
 from app.services.commercial.ffmpeg_utils import probe_duration
-from app.services.commercial.schema import Plan, Scene
+from app.services.commercial.schema import Plan, Scene, text_hash
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WIDTH, HEIGHT = 1080, 1920
@@ -44,17 +44,19 @@ def action_sfx(component: str, do: str) -> str | None:
 
 
 def resolve_music(plan: Plan, project_dir: Path | None = None) -> Path | None:
-    """Caminho da trilha: absoluto, relativo ao projeto ou à raiz do repositório."""
+    """Caminho da trilha: ``music/…`` (do projeto) ou ``resource/songs/…`` (do repositório)."""
     if not plan.music.file:
         return None
-    candidate = Path(plan.music.file)
-    options = [candidate] if candidate.is_absolute() else [
-        *([Path(project_dir) / candidate] if project_dir else []),
-        REPO_ROOT / candidate,
-    ]
-    for option in options:
-        if option.is_file():
-            return option
+    folder, _, name = plan.music.file.rpartition("/")
+    if folder == "music":
+        base = Path(project_dir) / "music" if project_dir else None
+    else:
+        base = REPO_ROOT / "resource" / "songs"
+    if base is not None:
+        candidate = base / name
+        # O schema já barra "..", mas confirma que o arquivo fica dentro da pasta.
+        if candidate.is_file() and candidate.resolve().parent == base.resolve():
+            return candidate
     raise ValueError(f"arquivo de trilha não encontrado: {plan.music.file}")
 
 
@@ -162,6 +164,16 @@ def build_render_props(plan: Plan, fps: int = 30, project_dir: Path | None = Non
     for scene in plan.scenes:
         if scene.audio is None:
             raise ValueError(f"cena {scene.id} sem narração")
+        tokens = [t for t in tokenize(scene.narration) if normalize_token(t)]
+        if (
+            scene.audio.text_hash != text_hash(scene.narration, plan.voice)
+            or len(scene.audio.words) != len(tokens)
+        ):
+            raise ValueError(
+                f"cena {scene.id}: narração desatualizada (o texto ou a voz mudou); gere a narração de novo"
+            )
+        if scene.media and project_dir and not (Path(project_dir) / scene.media).is_file():
+            raise ValueError(f"cena {scene.id}: arquivo de mídia não encontrado: {scene.media}")
 
     gap = plan.voice.scene_gap_seconds
     durations = [_frames(s.audio.duration + gap, fps) for s in plan.scenes]

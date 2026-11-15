@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import tempfile
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 
 from app.services.commercial.components import ACTIONS, PROPS_MODELS, ComponentName, target_ids
 
@@ -26,8 +27,14 @@ class Word(_Model):
     end: float
 
 
+# Caminhos dentro do projeto: nunca absolutos nem com "..".
+AUDIO_PATH = r"^audio/[A-Za-z0-9_-]+\.mp3$"
+MEDIA_PATH = r"^media/[A-Za-z0-9_-][A-Za-z0-9._-]*$"
+MUSIC_PATH = r"^(music|resource/songs)/[^/\\.][^/\\]*$"
+
+
 class SceneAudio(_Model):
-    file: str
+    file: str = Field(pattern=AUDIO_PATH)
     duration: float
     words: list[Word]
     text_hash: str
@@ -54,8 +61,21 @@ class Scene(_Model):
     camera: Literal["push_in", "drift", "static"] = "push_in"
     transition: Literal["blur_zoom", "morph", "cut"] = "blur_zoom"
     sfx: SceneSfx = SceneSfx()
-    media: str | None = None
+    media: str | None = Field(default=None, pattern=MEDIA_PATH)
     audio: SceneAudio | None = None
+
+    @model_validator(mode="after")
+    def _normalize_props(self) -> "Scene":
+        # Guarda os props já convertidos para os tipos declarados (e com os
+        # padrões preenchidos), para que o lado Remotion receba exatamente o
+        # que foi validado aqui. Props inválidos ficam como estão e são
+        # relatados por validate_plan.
+        try:
+            model = PROPS_MODELS[self.component].model_validate(self.props)
+        except ValidationError:
+            return self
+        self.props = model.model_dump(mode="json")
+        return self
 
 
 class Brief(_Model):
@@ -69,25 +89,25 @@ class Brief(_Model):
 class VoiceSettings(_Model):
     provider: Literal["edge"] = "edge"
     name: str = "pt-BR-AntonioNeural"
-    rate: str = "+8%"
+    rate: str = Field(default="+8%", pattern=r"^[+-]\d{1,3}%$")
     scene_gap_seconds: float = 0.25
 
 
 class MusicSettings(_Model):
-    file: str | None = None
-    speech_db: float = -18
-    gap_db: float = -9
-    fade_in: float = 0.5
-    fade_out: float = 1.5
+    file: str | None = Field(default=None, pattern=MUSIC_PATH)
+    speech_db: float = Field(default=-18, ge=-60, le=0)
+    gap_db: float = Field(default=-9, ge=-60, le=0)
+    fade_in: float = Field(default=0.5, ge=0, le=10)
+    fade_out: float = Field(default=1.5, ge=0, le=10)
 
 
 class CaptionSettings(_Model):
     enabled: bool = True
-    max_words: int = 4
-    max_chars: int = 18
-    y_percent: float = 68
-    font_size: int = 64
-    highlight_color: str = "#8FB8FF"
+    max_words: int = Field(default=4, ge=1, le=8)
+    max_chars: int = Field(default=18, ge=6, le=40)
+    y_percent: float = Field(default=68, ge=5, le=95)
+    font_size: int = Field(default=64, ge=24, le=120)
+    highlight_color: str = Field(default="#8FB8FF", pattern=r"^#[0-9A-Fa-f]{6}$")
 
 
 class Status(_Model):
@@ -106,6 +126,12 @@ class Plan(_Model):
     captions: CaptionSettings = CaptionSettings()
     scenes: list[Scene] = Field(min_length=3, max_length=14)
     status: Status = Status()
+
+
+def text_hash(text: str, voice: VoiceSettings) -> str:
+    """Identifica o par (texto, voz) de uma narração gerada."""
+    payload = f"{voice.provider}|{voice.name}|{voice.rate}|{text}"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
 def load_plan(project_dir: Path) -> Plan:

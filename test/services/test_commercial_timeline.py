@@ -2,7 +2,7 @@ import subprocess
 
 import pytest
 
-from app.services.commercial.schema import Plan
+from app.services.commercial.schema import Plan, text_hash
 from app.services.commercial.timeline import build_render_props, envelope_db_at
 
 
@@ -47,7 +47,11 @@ def make_plan(**overrides) -> Plan:
         ],
     }
     data.update(overrides)
-    return Plan.model_validate(data)
+    plan = Plan.model_validate(data)
+    for scene in plan.scenes:  # narração "em dia": hash do texto + voz
+        if scene.audio:
+            scene.audio.text_hash = text_hash(scene.narration, plan.voice)
+    return plan
 
 
 def test_scene_frames_and_tail():
@@ -94,18 +98,23 @@ def test_missing_audio_raises():
 
 
 @pytest.fixture
-def music_file(tmp_path):
-    out = tmp_path / "trilha.mp3"
+def music_project(tmp_path):
+    """Pasta de projeto com uma trilha de 5 s em music/trilha.mp3."""
+    (tmp_path / "music").mkdir()
     subprocess.run(
-        ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=220:duration=5", str(out)],
+        ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=220:duration=5",
+         str(tmp_path / "music" / "trilha.mp3")],
         check=True,
     )
-    return out
+    return tmp_path
 
 
-def test_envelope_ducks_during_speech(music_file):
-    plan = make_plan(music={"file": str(music_file)})
-    music = build_render_props(plan)["music"]
+MUSIC = {"file": "music/trilha.mp3"}
+
+
+def test_envelope_ducks_during_speech(music_project):
+    plan = make_plan(music=MUSIC)
+    music = build_render_props(plan, project_dir=music_project)["music"]
     env = music["envelope"]
     # meio da 2ª palavra da cena a (0.5–0.8 s) → quadro 20
     assert envelope_db_at(env, 20) == pytest.approx(-18)
@@ -116,32 +125,32 @@ def test_envelope_ducks_during_speech(music_file):
     assert all(a["frame"] < b["frame"] for a, b in zip(env, env[1:]))
 
 
-def test_envelope_fades_and_src(music_file):
-    plan = make_plan(music={"file": str(music_file)})
-    music = build_render_props(plan)["music"]
+def test_envelope_fades_and_src(music_project):
+    plan = make_plan(music=MUSIC)
+    music = build_render_props(plan, project_dir=music_project)["music"]
     assert music["src"] == "music/trilha.mp3"
     assert music["fadeInFrames"] == 15
     assert music["fadeOutFrames"] == 45
 
 
-def test_music_loop_flag(music_file):
-    plan = make_plan(music={"file": str(music_file)})
-    assert build_render_props(plan)["music"]["loop"] is True  # 5 s < 7.6 s
+def test_music_loop_flag(music_project):
+    plan = make_plan(music=MUSIC)
+    assert build_render_props(plan, project_dir=music_project)["music"]["loop"] is True  # 5 s < 7.6 s
     long_plan = make_plan(
-        music={"file": str(music_file)},
+        music=MUSIC,
         scenes=[_scene("a", "Um.", 1.0), _scene("b", "Dois.", 1.0), _scene("c", "Três.", 1.0)],
     )
-    assert build_render_props(long_plan)["music"]["loop"] is False  # 5 s > 4.55 s
+    assert build_render_props(long_plan, project_dir=music_project)["music"]["loop"] is False  # 5 s > 4.55 s
 
 
 def test_no_music():
     assert build_render_props(make_plan())["music"] is None
 
 
-def test_missing_music_file_raises():
-    plan = make_plan(music={"file": "nao/existe.mp3"})
+def test_missing_music_file_raises(tmp_path):
+    plan = make_plan(music={"file": "music/nao-existe.mp3"})
     with pytest.raises(ValueError, match="trilha"):
-        build_render_props(plan)
+        build_render_props(plan, project_dir=tmp_path)
 
 
 def test_sfx_whoosh_and_actions():

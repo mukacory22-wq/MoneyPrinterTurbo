@@ -41,6 +41,7 @@ def submit(project_dir: Path, step: Step, work: Work) -> str:
         running = _jobs.get(_by_project.get(key, ""))
         if running is not None and running.status == "running":
             raise JobBusyError(f"etapa '{running.step}' ainda em execução neste projeto")
+        _jobs.pop(_by_project.get(key, ""), None)  # descarta o job anterior do projeto
         job_id = uuid.uuid4().hex
         state = JobState(step=step)
         _jobs[job_id] = state
@@ -79,3 +80,9 @@ def current(project_dir: Path) -> JobState | None:
     with _lock:
         job_id = _by_project.get(_key(project_dir))
     return get(job_id) if job_id else None
+
+
+def is_running(project_dir: Path) -> bool:
+    """Há uma etapa em execução para o projeto (em qualquer aba ou navegador)?"""
+    state = current(project_dir)
+    return state is not None and state.status == "running"
