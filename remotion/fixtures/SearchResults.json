@@ -1,0 +1,88 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "type",
+     "target": null,
+     "frame": 10
+    },
+    {
+     "do": "highlight",
+     "target": "r2",
+     "frame": 90
+    }
+   ],
+   "component": "SearchResults",
+   "props": {
+    "query": "dentista aberto agora",
+    "results": [
+     {
+      "id": "r1",
+      "name": "Clínica Exemplo",
+      "meta": "4,8 · Odontologia · 800 m",
+      "status": "Fechado · abre às 8h",
+      "tone": "bad"
+     },
+     {
+      "id": "r2",
+      "name": "Odonto Prime",
+      "meta": "4,6 · Odontologia · 1,8 km",
+      "status": "Aberto 24 horas",
+      "tone": "good",
+      "button": "Ligar"
+     },
+     {
+      "id": "r3",
+      "name": "Dra. Lúcia Prado",
+      "meta": "4,9 · Odontologia · 2,4 km",
+      "status": "Fechado · abre às 7h30",
+      "tone": "neutral"
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

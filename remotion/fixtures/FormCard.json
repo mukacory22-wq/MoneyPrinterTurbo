@@ -1,0 +1,98 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "write",
+     "target": null,
+     "frame": 10
+    },
+    {
+     "do": "check",
+     "target": "urgencia",
+     "frame": 90
+    }
+   ],
+   "component": "FormCard",
+   "props": {
+    "title": "Ficha de triagem",
+    "subtitle": "Clínica Exemplo · recebido 23:47 pelo WhatsApp",
+    "fields": [
+     {
+      "label": "Paciente",
+      "value": "Mariana Souza"
+     },
+     {
+      "label": "Queixa",
+      "value": "dor muito forte no dente, não dormiu"
+     }
+    ],
+    "section": "Classificação",
+    "options": [
+     {
+      "id": "rotina",
+      "title": "Rotina",
+      "subtitle": "limpeza, clareamento"
+     },
+     {
+      "id": "avaliacao",
+      "title": "Avaliação",
+      "subtitle": "orçamento, primeira consulta"
+     },
+     {
+      "id": "retorno",
+      "title": "Retorno",
+      "subtitle": "acompanhamento"
+     },
+     {
+      "id": "urgencia",
+      "title": "Urgência",
+      "subtitle": "dor forte, inchaço ou sangramento"
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

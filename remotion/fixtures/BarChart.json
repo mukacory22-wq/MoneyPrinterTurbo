@@ -1,0 +1,97 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "grow",
+     "target": null,
+     "frame": 10
+    },
+    {
+     "do": "highlight",
+     "target": "b6",
+     "frame": 80
+    }
+   ],
+   "component": "BarChart",
+   "props": {
+    "title": "Faltas por mês",
+    "badge": "lembretes ligados em out",
+    "bars": [
+     {
+      "id": "b1",
+      "label": "jun",
+      "value": 18
+     },
+     {
+      "id": "b2",
+      "label": "jul",
+      "value": 16
+     },
+     {
+      "id": "b3",
+      "label": "ago",
+      "value": 17
+     },
+     {
+      "id": "b4",
+      "label": "set",
+      "value": 15
+     },
+     {
+      "id": "b5",
+      "label": "out",
+      "value": 10
+     },
+     {
+      "id": "b6",
+      "label": "nov",
+      "value": 6
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

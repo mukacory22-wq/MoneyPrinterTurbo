@@ -1,0 +1,68 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "play",
+     "target": null,
+     "frame": 8
+    },
+    {
+     "do": "highlight",
+     "target": null,
+     "frame": 125
+    }
+   ],
+   "component": "Transcription",
+   "props": {
+    "title": "Transcrevendo o áudio",
+    "sender": "Mariana · 23:47",
+    "duration_seconds": 14,
+    "text": "Oi, boa noite! Tô com uma dor muito forte no dente, nem consegui dormir... Vocês conseguem me atender amanhã cedo?",
+    "highlight": "dor muito forte no dente"
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

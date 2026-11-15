@@ -1,0 +1,133 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "reveal",
+     "target": "e1",
+     "frame": 10
+    },
+    {
+     "do": "reveal",
+     "target": "e2",
+     "frame": 20
+    },
+    {
+     "do": "reveal",
+     "target": "e3",
+     "frame": 30
+    },
+    {
+     "do": "reveal",
+     "target": "e4",
+     "frame": 40
+    },
+    {
+     "do": "comment",
+     "target": "k1",
+     "frame": 70
+    },
+    {
+     "do": "comment",
+     "target": "k2",
+     "frame": 90
+    },
+    {
+     "do": "comment",
+     "target": "k3",
+     "frame": 110
+    }
+   ],
+   "component": "SocialPost",
+   "props": {
+    "account": {
+     "name": "seu.perfil",
+     "subtitle": "agente de IA pra clínicas"
+    },
+    "title": "O agente da Clínica Exemplo",
+    "steps": [
+     {
+      "id": "e1",
+      "icon": "whatsapp",
+      "label": "WhatsApp"
+     },
+     {
+      "id": "e2",
+      "icon": "mic",
+      "label": "Transcrever"
+     },
+     {
+      "id": "e3",
+      "icon": "ai",
+      "label": "Agente de IA"
+     },
+     {
+      "id": "e4",
+      "icon": "calendar",
+      "label": "Agenda"
+     }
+    ],
+    "comments": [
+     {
+      "id": "k1",
+      "user": "dr.rafael.odonto · 3 min",
+      "keyword": "AGENDA"
+     },
+     {
+      "id": "k2",
+      "user": "ju.automacoes · 1 min",
+      "keyword": "AGENDA"
+     },
+     {
+      "id": "k3",
+      "user": "você · agora",
+      "keyword": "AGENDA"
+     }
+    ],
+    "count_label": "3.418 comentários"
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

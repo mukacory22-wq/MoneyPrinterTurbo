@@ -1,0 +1,94 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "done",
+     "target": "i1",
+     "frame": 40
+    },
+    {
+     "do": "done",
+     "target": "i2",
+     "frame": 60
+    },
+    {
+     "do": "done",
+     "target": "i3",
+     "frame": 80
+    }
+   ],
+   "component": "ChecklistStatus",
+   "props": {
+    "title": "Lembretes automáticos",
+    "header_left": "qui, 7 nov · 9h",
+    "header_right": "sex, 8 nov",
+    "items": [
+     {
+      "id": "i1",
+      "time": "9h30",
+      "name": "Mariana Souza",
+      "pending_label": "na fila",
+      "done_label": "Lembrete enviado"
+     },
+     {
+      "id": "i2",
+      "time": "10h30",
+      "name": "Pedro Alves",
+      "pending_label": "na fila",
+      "done_label": "Lembrete enviado"
+     },
+     {
+      "id": "i3",
+      "time": "14h",
+      "name": "Carla Mota",
+      "pending_label": "na fila",
+      "done_label": "Lembrete enviado"
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

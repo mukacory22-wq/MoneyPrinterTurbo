@@ -1,0 +1,93 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "choose",
+     "target": "c1",
+     "frame": 50
+    },
+    {
+     "do": "stamp",
+     "target": null,
+     "frame": 100
+    }
+   ],
+   "component": "TicketCards",
+   "props": {
+    "title": "Clínica Exemplo",
+    "subtitle": "CARTÃO DE CONSULTA",
+    "fields": [
+     {
+      "label": "Paciente",
+      "value": "Mariana Souza"
+     },
+     {
+      "label": "Dentista",
+      "value": "Dra. Ana Lima"
+     },
+     {
+      "label": "Dia",
+      "value": "sexta, 8/11"
+     }
+    ],
+    "cards": [
+     {
+      "id": "c1",
+      "label": "HORÁRIO",
+      "value": "9h30"
+     },
+     {
+      "id": "c2",
+      "label": "HORÁRIO",
+      "value": "14h"
+     }
+    ],
+    "chosen_label": "Mariana escolheu",
+    "stamp_text": "CONFIRMADA"
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}

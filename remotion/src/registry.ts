@@ -1,5 +1,15 @@
 import type React from 'react';
 import type {z} from 'zod';
+import * as BarChart from './scenes/BarChart';
+import * as ChecklistStatus from './scenes/ChecklistStatus';
+import * as DataTable from './scenes/DataTable';
+import * as DigitalClock from './scenes/DigitalClock';
+import * as FormCard from './scenes/FormCard';
+import * as MapCard from './scenes/MapCard';
+import * as SearchResults from './scenes/SearchResults';
+import * as SocialPost from './scenes/SocialPost';
+import * as TicketCards from './scenes/TicketCards';
+import * as Transcription from './scenes/Transcription';
 import * as AgentFlow from './scenes/AgentFlow';
 import * as Calendar from './scenes/Calendar';
 import * as Hook from './scenes/Hook';
@@ -26,4 +36,14 @@ export const REGISTRY: Partial<Record<ComponentName, RegistryEntry>> = {
   AgentFlow: {Component: AgentFlow.AgentFlow, schema: AgentFlow.schema},
   Calendar: {Component: Calendar.Calendar, schema: Calendar.schema},
   Stopwatch: {Component: Stopwatch.Stopwatch, schema: Stopwatch.schema},
+  BarChart: {Component: BarChart.BarChart, schema: BarChart.schema},
+  ChecklistStatus: {Component: ChecklistStatus.ChecklistStatus, schema: ChecklistStatus.schema},
+  DataTable: {Component: DataTable.DataTable, schema: DataTable.schema},
+  DigitalClock: {Component: DigitalClock.DigitalClock, schema: DigitalClock.schema},
+  FormCard: {Component: FormCard.FormCard, schema: FormCard.schema},
+  MapCard: {Component: MapCard.MapCard, schema: MapCard.schema},
+  SearchResults: {Component: SearchResults.SearchResults, schema: SearchResults.schema},
+  SocialPost: {Component: SocialPost.SocialPost, schema: SocialPost.schema},
+  TicketCards: {Component: TicketCards.TicketCards, schema: TicketCards.schema},
+  Transcription: {Component: Transcription.Transcription, schema: Transcription.schema},
 };

@@ -18,7 +18,7 @@ DEFAULT_MUSIC = "resource/songs/output003.mp3"
 # Componentes que a IA pode usar: os já implementados no Remotion, exceto "Media"
 # (que depende de arquivos enviados pelo usuário). Um teste garante que cada um
 # tem implementação/fixture em remotion/.
-PLANNABLE = ["Hook", "PhoneLockScreen", "WhatsAppChat", "AgentFlow", "Calendar", "Stopwatch"]
+PLANNABLE = [name for name in PROPS_MODELS if name != "Media"]
 
 DESCRIPTIONS: dict[str, str] = {
     "Hook": "Frase de impacto gigante no centro (gancho ou CTA). Palavras em MAIÚSCULAS ganham destaque.",

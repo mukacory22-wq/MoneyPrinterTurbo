@@ -1,0 +1,94 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "durationInFrames": 150,
+ "scenes": [
+  {
+   "id": "a",
+   "from": 0,
+   "durationInFrames": 150,
+   "camera": "push_in",
+   "transition": "blur_zoom",
+   "media": null,
+   "audio": null,
+   "actions": [
+    {
+     "do": "type",
+     "target": "l3",
+     "frame": 30
+    }
+   ],
+   "component": "DataTable",
+   "props": {
+    "title": "Pacientes · Clínica Exemplo",
+    "columns": [
+     "Paciente",
+     "WhatsApp",
+     "Motivo",
+     "Consulta"
+    ],
+    "rows": [
+     {
+      "id": "l1",
+      "cells": [
+       "João Pereira",
+       "(11) 11111-1111",
+       "Limpeza",
+       "sex 8h"
+      ]
+     },
+     {
+      "id": "l2",
+      "cells": [
+       "Paula Ramos",
+       "(11) 11111-1111",
+       "Canal",
+       "sex 10h"
+      ]
+     },
+     {
+      "id": "l3",
+      "cells": [
+       "Mariana Souza",
+       "(11) 11111-1111",
+       "Urgência",
+       "sex 9h30"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "captions": {
+  "enabled": true,
+  "yPercent": 68,
+  "fontSize": 64,
+  "highlightColor": "#8FB8FF",
+  "groups": [
+   {
+    "from": 0,
+    "to": 150,
+    "words": [
+     {
+      "text": "consulta",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "a",
+      "frame": 0,
+      "emphasis": false
+     },
+     {
+      "text": "agenda",
+      "frame": 0,
+      "emphasis": true
+     }
+    ]
+   }
+  ]
+ },
+ "music": null,
+ "sfx": []
+}
