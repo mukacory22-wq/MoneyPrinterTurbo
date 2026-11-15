@@ -8376,6 +8376,24 @@ def _render_application():
     if restore_applied or restore_succeeded:
         st.success(tr("Task Configuration Loaded"))
 
+    # Dois modos de geração: o fluxo padrão e o gerador de comerciais. No modo
+    # comercial a aba própria desenha tudo e o formulário padrão não é montado.
+    generation_mode = st.segmented_control(
+        tr("Generation Mode"),
+        options=["standard", "commercial"],
+        format_func=lambda mode: tr(
+            "Commercial Video Tab" if mode == "commercial" else "Standard Video Tab"
+        ),
+        default="standard",
+        key="main_generation_mode",
+        label_visibility="collapsed",
+    )
+    if generation_mode == "commercial":
+        from webui import commercial_tab
+
+        commercial_tab.render(tr)
+        return
+
     with st.container(key="main_settings_grid"):
         panel = st.columns(4)
     left_panel = panel[0]
