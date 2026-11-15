@@ -41,6 +41,7 @@
       "props": {
         "time": "14:20",
         "date": "quinta-feira, 7 de novembro",
+        "alarm": null,
         "notifications": [
           {
             "id": "pix",
@@ -189,6 +190,7 @@
       "props": {
         "time": "23:47",
         "date": "quinta-feira, 7 de novembro",
+        "alarm": null,
         "notifications": [
           {
             "id": "audio",
@@ -340,12 +342,14 @@
             "sender": "them",
             "kind": "text",
             "text": "Olá! Bem-vindo à Clínica Exemplo. Atendemos de seg a sex, das 8h às 18h.",
+            "audio_seconds": 0,
             "time": "18:02"
           },
           {
             "id": "voz",
             "sender": "me",
             "kind": "audio",
+            "text": "",
             "audio_seconds": 14,
             "time": "23:47"
           }
@@ -722,6 +726,7 @@
             "id": "voz",
             "sender": "them",
             "kind": "audio",
+            "text": "",
             "audio_seconds": 14,
             "time": "23:47"
           },
@@ -730,6 +735,7 @@
             "sender": "me",
             "kind": "text",
             "text": "Oi, Mariana! Entendi: dor forte no dente. Vou buscar um horário urgente pra você.",
+            "audio_seconds": 0,
             "time": "23:47"
           }
         ],
@@ -1205,6 +1211,7 @@
             "sender": "me",
             "kind": "text",
             "text": "Tenho amanhã às 9h30 ou às 14h. Qual você prefere?",
+            "audio_seconds": 0,
             "time": "23:47"
           },
           {
@@ -1212,6 +1219,7 @@
             "sender": "them",
             "kind": "text",
             "text": "9h30, por favor!",
+            "audio_seconds": 0,
             "time": "23:48"
           },
           {
@@ -1219,6 +1227,7 @@
             "sender": "me",
             "kind": "text",
             "text": "Consulta confirmada: sexta, 9h30, com a Dra. Ana Lima.",
+            "audio_seconds": 0,
             "time": "23:48"
           },
           {
@@ -1226,6 +1235,7 @@
             "sender": "me",
             "kind": "text",
             "text": "Localização: Rua das Flores, 120 · Centro",
+            "audio_seconds": 0,
             "time": "23:48"
           }
         ],
@@ -1918,7 +1928,7 @@
   "status": {
     "plan": "done",
     "narration": "done",
-    "render": "done",
+    "render": "pending",
     "errors": {}
   }
 }
