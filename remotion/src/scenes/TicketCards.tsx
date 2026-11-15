@@ -29,7 +29,7 @@ export const TicketCards: React.FC<SceneProps<Props>> = ({props, actions}) => {
   const stampAt = actionFrame(actions, 'stamp');
   const stamp = progress(frame, fps, stampAt, 10);
   const count = props.cards.length;
-  const cardWidth = Math.min(400, (900 - (count - 1) * 28) / count);
+  const cardWidth = count === 1 ? 540 : Math.min(420, (900 - (count - 1) * 28) / count);
 
   return (
     <div style={{display: 'flex', gap: 28 * (1 - choose), justifyContent: 'center', alignItems: 'center', perspective: 1600, fontFamily: theme.sans}}>
@@ -68,7 +68,7 @@ export const TicketCards: React.FC<SceneProps<Props>> = ({props, actions}) => {
                 </div>
               ) : null}
               {mine && stampAt !== null && stamp > 0 ? (
-                <div style={{position: 'absolute', right: -46, top: -26, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 18px', border: `5px solid ${theme.ink}`, borderRadius: 14, background: 'rgba(246,243,234,0.9)', fontSize: 26, fontWeight: 800, letterSpacing: '0.04em', transform: `rotate(-8deg) scale(${1.4 - 0.4 * stamp})`, opacity: stamp}}>
+                <div style={{position: 'absolute', right: -30, top: -46, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 18px', border: `5px solid ${theme.ink}`, borderRadius: 14, background: 'rgba(246,243,234,0.9)', fontSize: 26, fontWeight: 800, letterSpacing: '0.04em', transform: `rotate(-8deg) scale(${1.4 - 0.4 * stamp})`, opacity: stamp}}>
                   <div style={{width: 34, height: 34, borderRadius: '50%', background: theme.ink, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <CheckIcon size={22} />
                   </div>

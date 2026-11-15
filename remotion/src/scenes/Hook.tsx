@@ -13,6 +13,9 @@ export const Hook: React.FC<SceneProps<Props>> = ({props}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const words = props.text.split(/\s+/).filter(Boolean);
+  // Frases longas diminuem para não invadir a área das legendas.
+  const length = props.text.length;
+  const fontSize = length <= 16 ? 132 : length <= 28 ? 108 : length <= 44 ? 88 : 72;
   return (
     <div
       style={{
@@ -24,7 +27,7 @@ export const Hook: React.FC<SceneProps<Props>> = ({props}) => {
         rowGap: 6,
         fontFamily: theme.sans,
         fontWeight: 700,
-        fontSize: 132,
+        fontSize,
         lineHeight: 1.05,
         letterSpacing: '-0.045em',
         color: theme.text,
